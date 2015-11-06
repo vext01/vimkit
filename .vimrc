@@ -118,3 +118,4 @@ map <C-enter> :call Synctex()<cr>
 set nofoldenable
 
 let g:tex_flavor='latex'
+au BufRead,BufNewFile *.krun setfiletype python
