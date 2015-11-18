@@ -13,9 +13,10 @@ Plugin 'gmarik/Vundle.vim'
 
 if match(hostname(), "wilfred") != -1
 Plugin 'vimwiki'
-Plugin 'lervag/vim-latex'
+"Plugin 'lervag/vim-latex'
 Plugin 'morhetz/gruvbox' " colours
 Plugin 'abra/vim-abra' " colours
+Plugin 'gregsexton/Atom' "colors
 Plugin 'altercation/vim-colors-solarized' " colours
 endif
 Plugin 'MarcWeber/vim-addon-mw-utils'
@@ -101,6 +102,7 @@ nmap <tab> :CtrlPMixed<cr>
 " jedi-vim
 let g:jedi#popup_on_dot=0
 let g:jedi#use_tabs_not_buffers=0
+let g:jedi#show_call_signatures=1
 
 " copy and paste sanity
 vmap <C-c> "+y

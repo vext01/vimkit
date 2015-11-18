@@ -4,7 +4,8 @@ set encoding=utf-8
 
 "colorscheme solarized
 let g:gruvbox_contrast_dark='soft'
-colorscheme gruvbox
+"colorscheme gruvbox
+colorscheme solarized
 set background=light
 "set background=dark
 
