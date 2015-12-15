@@ -1,6 +1,6 @@
-set shiftwidth=4
-set tabstop=4
-set expandtab
+"set shiftwidth=4
+"set tabstop=4
+"set expandtab
 syn region Comment start=/"""/ end=/"""/
 
 highlight ExtraWhitespace ctermbg=red guibg=red
