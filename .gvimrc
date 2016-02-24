@@ -1,13 +1,12 @@
-set guifont=Liberation\ Mono\ 12
+set guifont=Liberation\ Mono\ 11
 
 set encoding=utf-8
 
-"colorscheme solarized
-let g:gruvbox_contrast_dark='soft'
-"colorscheme gruvbox
 colorscheme solarized
+"let g:gruvbox_contrast_dark='soft'
+"colorscheme gruvbox
+"set background=light
 set background=light
-"set background=dark
 
 syntax on
 set number
@@ -15,4 +14,6 @@ set number
 :set novb
 
 set columns=85
-set cursorline
+
+" slow!
+"set cursorline

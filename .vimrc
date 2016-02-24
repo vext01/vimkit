@@ -13,24 +13,26 @@ Plugin 'gmarik/Vundle.vim'
 
 if match(hostname(), "wilfred") != -1
 Plugin 'vimwiki'
-"Plugin 'lervag/vim-latex'
-Plugin 'morhetz/gruvbox' " colours
-Plugin 'abra/vim-abra' " colours
-Plugin 'gregsexton/Atom' "colors
+Plugin 'lervag/vim-latex'
+"Plugin 'morhetz/gruvbox' " colours
+"Plugin 'abra/vim-abra' " colours
+"Plugin 'gregsexton/Atom' "colors
 Plugin 'altercation/vim-colors-solarized' " colours
 endif
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'mileszs/ack.vim'
+"Plugin 'MarcWeber/vim-addon-mw-utils'
+"Plugin 'mileszs/ack.vim'
+Plugin 'rking/ag.vim'
 Plugin 'mattn/webapi-vim' " for gist
 Plugin 'mattn/gist-vim'
 Plugin 'vim-scripts/BufOnly.vim'
-Plugin 'tomtom/tlib_vim'
+"Plugin 'tomtom/tlib_vim'
 Plugin 'kien/ctrlp.vim'
 Bundle 'FelikZ/ctrlp-py-matcher'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'nvie/vim-flake8'
 Plugin 'vext01/theunixzoo-vim-colorscheme' " colours
+Plugin 'jamessan/vim-gnupg'
 
 call vundle#end()
 
@@ -63,7 +65,8 @@ map <C-c> i---8<---<cr>--->8---<esc>O
 map ;c i#include <stdio.h>#include <stdlib.h>intmain(int argc, char **argv){	return (EXIT_SUCCESS);}<esc><<
 map ;w :!fmt -76<cr>
 map ;s :%s/\s\+$//e<cr>
-map <C-j> :syntax spell toplevel<cr>:set spell!<cr>
+"map <C-j> :syntax spell toplevel<cr>:set spell!<cr>
+map <C-j> :set spell!<cr>
 
 set nocursorline
 
@@ -80,10 +83,6 @@ se t_Co=16
 syntax on
 colors theunixzoo
 set colorcolumn=80
-
-" Spelling
-setlocal spell spelllang=en_gb
-set nospell
 
 " CTRL-P
 let g:ctrlp_working_path_mode = ''
@@ -121,3 +120,34 @@ set nofoldenable
 
 let g:tex_flavor='latex'
 au BufRead,BufNewFile *.krun setfiletype python
+
+"map <C-m> :make!<cr>
+
+:set nojoinspaces
+
+let g:GPGExecutable='/usr/local/bin/gpg2'
+
+set shiftwidth=4
+set expandtab
+set tabstop=4
+
+" Spelling
+hi SpellBad cterm=underline ctermfg=magenta ctermbg=none
+hi SpellCap cterm=underline ctermfg=magenta ctermbg=none
+hi SpellLocal cterm=underline ctermfg=magenta ctermbg=none
+hi SpellRare cterm=underline ctermfg=magenta ctermbg=none
+setlocal spell spelllang=en_gb
+set spell
+
+" No cursor keys
+" combine with this:
+" xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+"inoremap <Left>  <NOP>
+"inoremap <Right> <NOP>
+"inoremap <Up>    <NOP>
+"inoremap <Down>  <NOP>
+"nnoremap <Left>  <NOP>
+"nnoremap <Right> <NOP>
+"nnoremap <Up>    <NOP>
+"nnoremap <Down>  <NOP>
+
