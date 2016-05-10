@@ -33,6 +33,7 @@ Plugin 'hynek/vim-python-pep8-indent'
 Plugin 'nvie/vim-flake8'
 Plugin 'vext01/theunixzoo-vim-colorscheme' " colours
 Plugin 'jamessan/vim-gnupg'
+Plugin 'zah/nim.vim'
 
 call vundle#end()
 

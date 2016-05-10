@@ -2,4 +2,5 @@
 set noexpandtab
 set shiftwidth=8
 set tabstop=8
-:match ExtraWhitespace /\s\+$/
+match ExtraWhitespace /\s\+$/
+set nospell
