@@ -1,4 +1,5 @@
 set guifont=Liberation\ Mono\ 11
+"set guifont=-*-fixed-*-*-*-*-15-*-*-*-*-*-*-*
 
 set encoding=utf-8
 

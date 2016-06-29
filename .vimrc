@@ -34,6 +34,7 @@ Plugin 'nvie/vim-flake8'
 Plugin 'vext01/theunixzoo-vim-colorscheme' " colours
 Plugin 'jamessan/vim-gnupg'
 Plugin 'zah/nim.vim'
+Plugin 'rust-lang/rust.vim'
 
 call vundle#end()
 
