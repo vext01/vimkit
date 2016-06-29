@@ -1,42 +1,28 @@
 let hostname = hostname()
-" Can be used for per-host config
-" if hostname != "kryten.home"
-" <stuff>
-" endif
 
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" Pkg manager itself
-Plugin 'gmarik/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
 if match(hostname(), "wilfred") != -1
-Plugin 'vimwiki'
-Plugin 'lervag/vim-latex'
-"Plugin 'morhetz/gruvbox' " colours
-"Plugin 'abra/vim-abra' " colours
-"Plugin 'gregsexton/Atom' "colors
-Plugin 'altercation/vim-colors-solarized' " colours
+Plug 'lervag/vim-latex'
+Plug 'morhetz/gruvbox' " colours
+Plug 'gregsexton/Atom' "colours
+Plug 'altercation/vim-colors-solarized' " colours
 endif
-"Plugin 'MarcWeber/vim-addon-mw-utils'
-"Plugin 'mileszs/ack.vim'
-Plugin 'rking/ag.vim'
-Plugin 'mattn/webapi-vim' " for gist
-Plugin 'mattn/gist-vim'
-Plugin 'vim-scripts/BufOnly.vim'
-"Plugin 'tomtom/tlib_vim'
-Plugin 'kien/ctrlp.vim'
-Bundle 'FelikZ/ctrlp-py-matcher'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'hynek/vim-python-pep8-indent'
-Plugin 'nvie/vim-flake8'
-Plugin 'vext01/theunixzoo-vim-colorscheme' " colours
-Plugin 'jamessan/vim-gnupg'
-Plugin 'zah/nim.vim'
-Plugin 'rust-lang/rust.vim'
+Plug 'rking/ag.vim'
+Plug 'mattn/webapi-vim' " for gist
+Plug 'mattn/gist-vim'
+Plug 'vim-scripts/BufOnly.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'davidhalter/jedi-vim'
+Plug 'hynek/vim-python-pep8-indent'
+Plug 'nvie/vim-flake8'
+Plug 'vext01/theunixzoo-vim-colorscheme' " colours
+Plug 'jamessan/vim-gnupg'
+Plug 'zah/nim.vim'
+Plug 'rust-lang/rust.vim'
 
-call vundle#end()
+call plug#end()
 
 filetype on
 filetype indent on
@@ -67,7 +53,6 @@ map <C-c> i---8<---<cr>--->8---<esc>O
 map ;c i#include <stdio.h>#include <stdlib.h>intmain(int argc, char **argv){	return (EXIT_SUCCESS);}<esc><<
 map ;w :!fmt -76<cr>
 map ;s :%s/\s\+$//e<cr>
-"map <C-j> :syntax spell toplevel<cr>:set spell!<cr>
 map <C-j> :set spell!<cr>
 
 set nocursorline
@@ -122,8 +107,6 @@ set nofoldenable
 
 let g:tex_flavor='latex'
 au BufRead,BufNewFile *.krun setfiletype python
-
-"map <C-m> :make!<cr>
 
 :set nojoinspaces
 
