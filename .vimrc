@@ -8,12 +8,10 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-if match(hostname(), "wilfred") != -1
+"if match(hostname(), "wilfred") != -1
+"endif
 Plug 'lervag/vim-latex'
-Plug 'morhetz/gruvbox' " colours
-Plug 'gregsexton/Atom' "colours
 Plug 'altercation/vim-colors-solarized' " colours
-endif
 Plug 'rking/ag.vim'
 Plug 'mattn/webapi-vim' " for gist
 Plug 'mattn/gist-vim'
@@ -118,27 +116,14 @@ au BufRead,BufNewFile *.krun setfiletype python
 
 let g:GPGExecutable='/usr/local/bin/gpg2'
 
-set shiftwidth=4
-set expandtab
-set tabstop=4
-
 " Spelling
 hi SpellBad cterm=underline ctermfg=magenta ctermbg=none
 hi SpellCap cterm=underline ctermfg=magenta ctermbg=none
 hi SpellLocal cterm=underline ctermfg=magenta ctermbg=none
 hi SpellRare cterm=underline ctermfg=magenta ctermbg=none
 setlocal spell spelllang=en_gb
-set spell
+set nospell  " off by default, use keybind to turn on
 
-" No cursor keys
-" combine with this:
-" xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
-"inoremap <Left>  <NOP>
-"inoremap <Right> <NOP>
-"inoremap <Up>    <NOP>
-"inoremap <Down>  <NOP>
-"nnoremap <Left>  <NOP>
-"nnoremap <Right> <NOP>
-"nnoremap <Up>    <NOP>
-"nnoremap <Down>  <NOP>
-
+"ack.vim, actually use ag
+let g:ackprg = 'ag --nogroup --nocolor --column'
+command Ag Ack
