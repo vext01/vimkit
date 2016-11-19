@@ -1,11 +1,16 @@
 let hostname = hostname()
 
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim/plugged')
 
 "if match(hostname(), "wilfred") != -1
 "endif
 Plug 'altercation/vim-colors-solarized' " colours
-Plug 'lervag/vim-latex'
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
@@ -111,6 +116,7 @@ au BufRead,BufNewFile *.krun setfiletype python
 
 let g:GPGExecutable='/usr/local/bin/gpg2'
 
+
 " Use space indent, unless overidden in a ftplugin
 set tabstop=4
 set expandtab
@@ -122,8 +128,9 @@ hi SpellCap cterm=underline ctermfg=magenta ctermbg=none
 hi SpellLocal cterm=underline ctermfg=magenta ctermbg=none
 hi SpellRare cterm=underline ctermfg=magenta ctermbg=none
 setlocal spell spelllang=en_gb
-set nospell
 
-" Highlight trailing whitespace
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
+set nospell  " off by default, use keybind to turn on
+
+"ack.vim, actually use ag
+let g:ackprg = 'ag --nogroup --nocolor --column'
+command Ag Ack
