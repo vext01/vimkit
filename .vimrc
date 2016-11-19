@@ -10,6 +10,8 @@ call plug#begin('~/.vim/plugged')
 
 "if match(hostname(), "wilfred") != -1
 "endif
+Plug 'vim-scripts/BufOnly.vim'
+Plug 'mileszs/ack.vim'
 Plug 'altercation/vim-colors-solarized' " colours
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'kien/ctrlp.vim'
@@ -66,8 +68,8 @@ set vb t_vb=
 
 " Default terminal colour scheme
 se t_Co=16
-syntax on
-colors theunixzoo
+syntax off
+"colors theunixzoo
 
 " Mark long lines
 set colorcolumn=80
@@ -133,4 +135,9 @@ set nospell  " off by default, use keybind to turn on
 
 "ack.vim, actually use ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
-command Ag Ack
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+
+hi ColorColumn ctermbg=black
