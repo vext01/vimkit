@@ -2,15 +2,10 @@ let hostname = hostname()
 
 call plug#begin('~/.vim/plugged')
 
-if match(hostname(), "wilfred") != -1
-Plug 'lervag/vim-latex'
-Plug 'morhetz/gruvbox' " colours
-Plug 'gregsexton/Atom' "colours
+"if match(hostname(), "wilfred") != -1
+"endif
 Plug 'altercation/vim-colors-solarized' " colours
-endif
-Plug 'rking/ag.vim'
-Plug 'mattn/webapi-vim' " for gist
-Plug 'mattn/gist-vim'
+Plug 'lervag/vim-latex'
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
@@ -19,7 +14,6 @@ Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
 Plug 'vext01/theunixzoo-vim-colorscheme' " colours
 Plug 'jamessan/vim-gnupg'
-Plug 'zah/nim.vim'
 Plug 'rust-lang/rust.vim'
 
 call plug#end()
@@ -29,7 +23,6 @@ filetype indent on
 filetype plugin on
 
 " Misc
-"set number
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
@@ -55,10 +48,10 @@ map ;w :!fmt -76<cr>
 map ;s :%s/\s\+$//e<cr>
 map <C-j> :set spell!<cr>
 
+" Don't highlight the current line
 set nocursorline
 
 set cmdheight=1 " for annoying :Exp prompt
-"set scrolloff=5
 
 " arduino
 au BufRead,BufNewFile *.ino set filetype=cpp
@@ -66,9 +59,12 @@ au BufRead,BufNewFile *.ino set filetype=cpp
 " I hate terminal bell
 set vb t_vb=
 
+" Default terminal colour scheme
 se t_Co=16
 syntax on
 colors theunixzoo
+
+" Mark long lines
 set colorcolumn=80
 
 " CTRL-P
@@ -106,15 +102,19 @@ map <C-enter> :call Synctex()<cr>
 set nofoldenable
 
 let g:tex_flavor='latex'
+
+" .krun files are really Python
 au BufRead,BufNewFile *.krun setfiletype python
 
+" Don't add extra spaces when joining lines
 :set nojoinspaces
 
 let g:GPGExecutable='/usr/local/bin/gpg2'
 
-set shiftwidth=4
-set expandtab
+" Use space indent, unless overidden in a ftplugin
 set tabstop=4
+set expandtab
+set shiftwidth=4
 
 " Spelling
 hi SpellBad cterm=underline ctermfg=magenta ctermbg=none
@@ -122,17 +122,8 @@ hi SpellCap cterm=underline ctermfg=magenta ctermbg=none
 hi SpellLocal cterm=underline ctermfg=magenta ctermbg=none
 hi SpellRare cterm=underline ctermfg=magenta ctermbg=none
 setlocal spell spelllang=en_gb
-set spell
+set nospell
 
-" No cursor keys
-" combine with this:
-" xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
-"inoremap <Left>  <NOP>
-"inoremap <Right> <NOP>
-"inoremap <Up>    <NOP>
-"inoremap <Down>  <NOP>
-"nnoremap <Left>  <NOP>
-"nnoremap <Right> <NOP>
-"nnoremap <Up>    <NOP>
-"nnoremap <Down>  <NOP>
-
+" Highlight trailing whitespace
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
