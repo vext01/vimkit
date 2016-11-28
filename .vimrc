@@ -11,9 +11,7 @@ call plug#begin('~/.vim/plugged')
 "if match(hostname(), "wilfred") != -1
 "endif
 Plug 'vim-scripts/BufOnly.vim'
-Plug 'mileszs/ack.vim'
 Plug 'altercation/vim-colors-solarized' " colours
-Plug 'vim-scripts/BufOnly.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'davidhalter/jedi-vim'
@@ -22,6 +20,7 @@ Plug 'nvie/vim-flake8'
 Plug 'vext01/theunixzoo-vim-colorscheme' " colours
 Plug 'jamessan/vim-gnupg'
 Plug 'rust-lang/rust.vim'
+Plug 'mhinz/vim-grepper'
 
 call plug#end()
 
@@ -66,13 +65,18 @@ au BufRead,BufNewFile *.ino set filetype=cpp
 " I hate terminal bell
 set vb t_vb=
 
+" no mouse thanks
+set mouse=
+
 " Default terminal colour scheme
-se t_Co=16
 syntax off
-"colors theunixzoo
+colors solarized
 
 " Mark long lines
 set colorcolumn=80
+
+" number gutter
+set number
 
 " CTRL-P
 let g:ctrlp_working_path_mode = ''
@@ -99,15 +103,10 @@ vmap <C_x> "+c
 vmap <C_v> c<ESC>"+p
 imap <C-v> <C-r><C-o>+
 
-" synctex + zathura support
-function! Synctex()
-	" remove 'silent' for debugging
-	execute "silent !zathura --synctex-forward " . line('.') . ":" . col('.') . ":" . bufname('%') . " " . g:syncpdf
-endfunction
-map <C-enter> :call Synctex()<cr>
-
+" I don't use folding, and it is slow anyway
 set nofoldenable
 
+" Any tex file I'm editing is latex
 let g:tex_flavor='latex'
 
 " .krun files are really Python
@@ -116,8 +115,8 @@ au BufRead,BufNewFile *.krun setfiletype python
 " Don't add extra spaces when joining lines
 :set nojoinspaces
 
+" I use only gpg2
 let g:GPGExecutable='/usr/local/bin/gpg2'
-
 
 " Use space indent, unless overidden in a ftplugin
 set tabstop=4
@@ -133,11 +132,9 @@ setlocal spell spelllang=en_gb
 
 set nospell  " off by default, use keybind to turn on
 
-"ack.vim, actually use ag
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 
-hi ColorColumn ctermbg=black
+" anything you don't want in git, or that changes a lot, here
+source ~/.vim/local.vim
