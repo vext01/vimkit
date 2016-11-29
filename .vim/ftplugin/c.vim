@@ -1,14 +1,13 @@
 set cinoptions=:0,t0,+4,(4
 
-" OpenBSD KNF
-"set tabstop=8
-"set noexpandtab
-"set shiftwidth=8
-
-" Soft-dev (KNF with no tabs)
-set tabstop=4
-set expandtab
-set shiftwidth=4
-
-:highlight ExtraWhitespace ctermbg=red guibg=red
-:match ExtraWhitespace /\s\+$/
+if exists("g:softdev")
+    " OpenBSD KNF with tabs with 4 spaces
+    set tabstop=4
+    set expandtab
+    set shiftwidth=4
+else
+    " OpenBSD KNF
+    set tabstop=8
+    set noexpandtab
+    set shiftwidth=8
+endif
