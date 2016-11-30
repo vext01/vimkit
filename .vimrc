@@ -111,6 +111,10 @@ vmap <C_x> "+c
 vmap <C_v> c<ESC>"+p
 imap <C-v> <C-r><C-o>+
 
+" delete/change inside/around slash
+onoremap <silent> i/ :<C-U>normal! T/vt/<CR>
+onoremap <silent> a/ :<C-U>normal! F/vf/<CR>
+
 " I don't use folding, and it is slow anyway
 set nofoldenable
 
