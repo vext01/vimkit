@@ -26,6 +26,8 @@ Plug 'mhinz/vim-grepper'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
+Plug 'KeitaNakamura/neodark.vim'
+
 call plug#end()
 
 filetype on
@@ -73,8 +75,8 @@ set vb t_vb=
 set mouse=
 
 " Default terminal colour scheme
-syntax off
 colors solarized
+syntax on
 
 " Mark long lines
 set colorcolumn=80
@@ -147,6 +149,9 @@ set nospell  " off by default, use keybind to turn on
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+
+" sync to system clipboard (nvim)
+set clipboard+=unnamedplus
 
 " anything you don't want in git, or that changes a lot, here
 source ~/.vim/local.vim
