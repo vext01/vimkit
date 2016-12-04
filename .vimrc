@@ -153,5 +153,11 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 " sync to system clipboard (nvim)
 set clipboard+=unnamedplus
 
+function WhatHighlight()
+    echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+                \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+                \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
+endfunc
+
 " anything you don't want in git, or that changes a lot, here
 source ~/.vim/local.vim
