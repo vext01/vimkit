@@ -35,7 +35,7 @@ ln -hsf ${HERE}/.vim ~/.config/nvim
 ln -sf ${HERE}/.vimrc ~/.config/nvim/init.vim
 
 # Kicks off install
-vim || exit $?
+${NVIM_PATH}/bin/nvim || exit $?
 
 echo "Bootstrap success!"
 echo "Don't forget to put ${NVIM_PATH} into your path and alias vim to nvim"
