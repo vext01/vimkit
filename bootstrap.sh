@@ -2,6 +2,17 @@
 HERE=`pwd`
 NVIM_PATH=`pwd`/nvim-inst
 
+case `uname` in
+    OpenBSD)
+        MAKE=gmake
+        LNFILE="ln -sfh"
+        ;;
+    *)
+        MAKE=make
+        LNFILE="ln -sfT"
+        ;;
+esac
+
 install_neovim() {
     if [ -d neovim ]; then return; fi
     git clone https://github.com/neovim/neovim.git || exit $?
@@ -11,8 +22,8 @@ install_neovim() {
     export AUTOMAKE_VERSION=1.15
     export AUTOCONF_VERSION=2.69
 
-    gmake CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NVIM_PATH}" || exit $?
-    gmake install || exit $?
+    ${MAKE} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NVIM_PATH}" || exit $?
+    ${MAKE} install || exit $?
 }
 
 cat <<EOD
@@ -26,13 +37,13 @@ EOD
 read x
 
 install_neovim
-ln -sf ${HERE}/.vimrc ~/.vimrc || exit $?
-ln -sf ${HERE}/.gvimrc ~/.gvimrc || exit $?
-ln -hsf ${HERE}/.vim ~/.vim || exit $?
+${LNFILE} ${HERE}/.vimrc ~/.vimrc || exit $?
+${LNFILE} ${HERE}/.gvimrc ~/.gvimrc || exit $?
+${LNFILE} ${HERE}/.vim ~/.vim || exit $?
 
 mkdir -p ~/.config || exit $?
-ln -hsf ${HERE}/.vim ~/.config/nvim
-ln -sf ${HERE}/.vimrc ~/.config/nvim/init.vim
+${LNFILE} ${HERE}/.vim ~/.config/nvim
+${LNFILE} ${HERE}/.vimrc ~/.config/nvim/init.vim
 
 # Kicks off install
 ${NVIM_PATH}/bin/nvim || exit $?
