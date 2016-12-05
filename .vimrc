@@ -75,6 +75,7 @@ set vb t_vb=
 set mouse=
 
 " Default terminal colour scheme
+set t_Co=256
 colors solarized
 syntax on
 
