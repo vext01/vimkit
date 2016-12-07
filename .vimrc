@@ -147,9 +147,13 @@ setlocal spell spelllang=en_gb
 
 set nospell  " off by default, use keybind to turn on
 
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+function HighLightWhitespace()
+    hi! ExtraWhitespace ctermbg=red guibg=red
+    match ExtraWhitespace /\s\+$/
+endfunc
+autocmd ColorScheme * call HighLightWhitespace()
+autocmd FileType * call HighLightWhitespace()
+autocmd FileType diff,mail hi clear ExtraWhitespace
 
 " sync to system clipboard (nvim)
 set clipboard+=unnamedplus
