@@ -84,6 +84,7 @@ set colorcolumn=80
 
 " number gutter
 set number
+map <C-@> :set number!<cr>
 
 " CTRL-P
 "let g:ctrlp_working_path_mode = ''
