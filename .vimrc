@@ -14,7 +14,6 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'altercation/vim-colors-solarized' " colours
 "Plug 'kien/ctrlp.vim'
 "Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'davidhalter/jedi-vim'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
 Plug 'vext01/theunixzoo-vim-colorscheme' " colours
@@ -22,11 +21,17 @@ Plug 'jamessan/vim-gnupg'
 Plug 'rust-lang/rust.vim'
 Plug 'mhinz/vim-grepper'
 
+" Python completion/jumping
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
+
+" This can go after deiplete-jedi (or something else) supports jump to def
+Plug 'davidhalter/jedi-vim'
+
 " Don't forget to put fzf path into shell rc
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'KeitaNakamura/neodark.vim'
 
 call plug#end()
 
@@ -105,9 +110,13 @@ nmap ` :Buffers<cr>
 nmap <tab> :Files<cr>
 
 " jedi-vim
+" Kill when deoplete-jedi supports "jump to def"
 let g:jedi#popup_on_dot=0
 let g:jedi#use_tabs_not_buffers=0
-let g:jedi#show_call_signatures=1
+let g:jedi#show_call_signatures=0
+
+" Deoplete
+let g:deoplete#enable_at_startup = 1
 
 " copy and paste sanity
 vmap <C-c> "+y
