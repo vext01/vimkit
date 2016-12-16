@@ -14,9 +14,22 @@ case `uname` in
 esac
 
 install_neovim() {
-    if [ -d neovim ]; then return; fi
-    git clone https://github.com/neovim/neovim.git || exit $?
-    cd neovim || exit $?
+    if [ -d nvim-inst.old ]; then
+        rm -rf nvim-inst.old || exit $?
+    fi
+    if [ -d nvim-inst ]; then
+        mv nvim-inst nvim-inst.old || exit $?
+    fi
+
+    if [ -d neovim ]; then
+        echo "Update existing nvim source tree"
+        cd neovim && git pull || exit $?;
+        gmake clean || exit $?
+    else
+        echo "Clone new nvim source tree"
+        git clone https://github.com/neovim/neovim.git || exit $?
+        cd neovim || exit $?
+    fi
 
     # For OpenBSD, define autotools versions
     export AUTOMAKE_VERSION=1.15
