@@ -174,5 +174,7 @@ function WhatHighlight()
                 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
 endfunc
 
+syn sync minlines=300
+
 " anything you don't want in git, or that changes a lot, here
 source ~/.vim/local.vim
