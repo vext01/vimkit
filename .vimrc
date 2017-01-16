@@ -12,8 +12,8 @@ call plug#begin('~/.vim/plugged')
 "endif
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'altercation/vim-colors-solarized' " colours
-"Plug 'kien/ctrlp.vim'
-"Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'kien/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
 Plug 'vext01/theunixzoo-vim-colorscheme' " colours
@@ -29,8 +29,8 @@ Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 
 " Don't forget to put fzf path into shell rc
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+"Plug 'junegunn/fzf.vim'
 
 
 call plug#end()
@@ -92,22 +92,22 @@ set number
 map <C-@> :set number!<cr>
 
 " CTRL-P
-"let g:ctrlp_working_path_mode = ''
-"let g:ctrlp_by_filename = 0
-"let g:ctrlp_regexp = 0
-"let g:ctrlp_match_window = 'order:ttb,min:10,max:40'
-"let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-"let g:ctrlp_max_files = 0
-"let g:ctrlp_custom_ignore = {
-"	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
-"	\ 'file': '\v\.(pyc|o|so|orig)$',
-"	\ }
-"nmap ` :CtrlPBuffer<cr>
-"nmap <tab> :CtrlPMixed<cr>
+let g:ctrlp_working_path_mode = ''
+let g:ctrlp_by_filename = 0
+let g:ctrlp_regexp = 0
+let g:ctrlp_match_window = 'order:ttb,min:10,max:40'
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+let g:ctrlp_max_files = 0
+let g:ctrlp_custom_ignore = {
+	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+	\ 'file': '\v\.(pyc|o|so|orig)$',
+	\ }
+nmap ` :CtrlPBuffer<cr>
+nmap <tab> :CtrlPMixed<cr>
 
 " Fuzzy finder
-nmap ` :Buffers<cr>
-nmap <tab> :Files<cr>
+"nmap ` :Buffers<cr>
+"nmap <tab> :Files<cr>
 
 " jedi-vim
 " Kill when deoplete-jedi supports "jump to def"
