@@ -117,17 +117,17 @@ let g:jedi#show_call_signatures=0
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
-"let g:deoplete#disable_auto_complete = 1
+let g:deoplete#disable_auto_complete = 1
 "let g:deoplete#auto_complete_delay = 600
 " from deoplete :help
-"inoremap <silent><expr> <C-n>
-"            \ pumvisible() ? "\<C-n>" :
-"            \ <SID>check_back_space() ? "\<TAB>" :
-"            \ deoplete#mappings#manual_complete()
-"function! s:check_back_space() abort "{{{
-"    let col = col('.') - 1
-"    return !col || getline('.')[col - 1]  =~ '\s'
-"endfunction"}}}
+inoremap <silent><expr> <C-space>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
 
 " copy and paste sanity
 vmap <C-c> "+y
