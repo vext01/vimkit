@@ -1,6 +1,7 @@
 #!/bin/sh
 HERE=`pwd`
-NVIM_PATH=`pwd`/nvim-inst
+NVIM_INST=`pwd`/nvim-inst
+NVIM_SRC=`pwd`/neovim
 
 case `uname` in
     OpenBSD)
@@ -14,28 +15,23 @@ case `uname` in
 esac
 
 install_neovim() {
-    if [ -d nvim-inst.old ]; then
-        rm -rf nvim-inst.old || exit $?
+    if [ -d ${NVIM_INST} ]; then
+        echo "${NVIM_INST} already exists"
+        exit 1
     fi
-    if [ -d nvim-inst ]; then
-        mv nvim-inst nvim-inst.old || exit $?
+    if [ -d ${NVIM_SRC} ]; then
+        echo "${NVIM_SRC} already exists"
+        exit 1
     fi
 
-    if [ -d neovim ]; then
-        echo "Update existing nvim source tree"
-        cd neovim && git pull || exit $?;
-        gmake clean || exit $?
-    else
-        echo "Clone new nvim source tree"
-        git clone https://github.com/neovim/neovim.git || exit $?
-        cd neovim || exit $?
-    fi
+    git clone --depth 1 https://github.com/neovim/neovim.git || exit $?
+    cd ${NVIM_SRC} || exit $?
 
     # For OpenBSD, define autotools versions
     export AUTOMAKE_VERSION=1.15
     export AUTOCONF_VERSION=2.69
 
-    ${MAKE} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NVIM_PATH}" || exit $?
+    ${MAKE} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NVIM_INST}" || exit $?
     ${MAKE} install || exit $?
 }
 
@@ -59,7 +55,7 @@ ${LNFILE} ${HERE}/.vim ~/.config/nvim
 ${LNFILE} ${HERE}/.vimrc ~/.config/nvim/init.vim
 
 # Kicks off install
-${NVIM_PATH}/bin/nvim || exit $?
+${NVIM_INST}/bin/nvim || exit $?
 
 echo "Bootstrap success!"
-echo "Don't forget to put ${NVIM_PATH} into your path and alias vim to nvim"
+echo "Don't forget to put ${NVIM_INST}/bin into your path and alias vim to nvim"
