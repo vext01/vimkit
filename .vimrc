@@ -20,6 +20,7 @@ Plug 'vext01/theunixzoo-vim-colorscheme' " colours
 Plug 'jamessan/vim-gnupg'
 Plug 'rust-lang/rust.vim'
 Plug 'mhinz/vim-grepper'
+"Plug 'vim-latex/vim-latex'
 
 " Python completion/jumping
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -189,3 +190,5 @@ syn sync minlines=300
 
 " anything you don't want in git, or that changes a lot, here
 source ~/.vim/local.vim
+
+set nofoldenable
