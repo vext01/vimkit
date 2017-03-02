@@ -21,6 +21,7 @@ Plug 'jamessan/vim-gnupg'
 Plug 'rust-lang/rust.vim'
 Plug 'mhinz/vim-grepper'
 "Plug 'vim-latex/vim-latex'
+Plug 'sebastianmarkow/deoplete-rust'
 
 " Python completion/jumping
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
