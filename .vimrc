@@ -16,24 +16,15 @@ Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
-Plug 'vext01/theunixzoo-vim-colorscheme' " colours
 Plug 'jamessan/vim-gnupg'
 Plug 'rust-lang/rust.vim'
 Plug 'mhinz/vim-grepper'
 "Plug 'vim-latex/vim-latex'
 Plug 'sebastianmarkow/deoplete-rust'
-
-" Python completion/jumping
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
-
 " This can go after deiplete-jedi (or something else) supports jump to def
 Plug 'davidhalter/jedi-vim'
-
-" Don't forget to put fzf path into shell rc
-"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-"Plug 'junegunn/fzf.vim'
-
 
 call plug#end()
 
