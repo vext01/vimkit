@@ -24,8 +24,9 @@ install_neovim() {
         exit 1
     fi
 
-    git clone --depth 1 https://github.com/neovim/neovim.git || exit $?
+    git clone https://github.com/neovim/neovim.git || exit $?
     cd ${NVIM_SRC} || exit $?
+    git checkout v0.2.0 || exit $?
 
     # For OpenBSD, define autotools versions
     export AUTOMAKE_VERSION=1.15
@@ -42,7 +43,6 @@ This will force link ~/.vim, ~/.vimrc and ~/.gvimrc.
 
 Are you sure [Enter/^C]?
 EOD
-
 read x
 
 echo -n "build neovim? [y/n]: "
