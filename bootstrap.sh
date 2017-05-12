@@ -31,7 +31,7 @@ install_neovim() {
     export AUTOMAKE_VERSION=1.15
     export AUTOCONF_VERSION=2.69
 
-    ${MAKE} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NVIM_INST}" || exit $?
+    ${MAKE} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NVIM_INST}" VERBOSE=1 || exit $?
     ${MAKE} install || exit $?
 }
 
@@ -45,7 +45,12 @@ EOD
 
 read x
 
-install_neovim
+echo -n "build neovim? [y/n]: "
+read bn
+if [ ${bn} = "y" ]; then
+    install_neovim
+fi
+
 ${LNFILE} ${HERE}/.vimrc ~/.vimrc || exit $?
 ${LNFILE} ${HERE}/.gvimrc ~/.gvimrc || exit $?
 ${LNFILE} ${HERE}/.vim ~/.vim || exit $?
@@ -55,7 +60,8 @@ ${LNFILE} ${HERE}/.vim ~/.config/nvim
 ${LNFILE} ${HERE}/.vimrc ~/.config/nvim/init.vim
 
 # Kicks off install
-${NVIM_INST}/bin/nvim || exit $?
+#${NVIM_INST}/bin/nvim || exit $?
+vim || exit $?
 
 echo "Bootstrap success!"
 echo "Don't forget to put ${NVIM_INST}/bin into your path and alias vim to nvim"

@@ -190,6 +190,24 @@ endfunc
 
 syn sync minlines=300
 
+" Rust
+let g:deoplete#sources#rust#racer_binary='$HOME/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path='/home/edd/research/metarust'
+
+" Grepper
+nnoremap <leader>g :Grepper -tool rg<cr>
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
+let g:grepper = {}
+let g:grepper.tools=['ag', 'rg']
+let g:grepper.jump=1
+let g:grepper.simple_prompt=1
+fu GrepperWord()
+   let l:word = expand("<cword>")
+   execute ":Grepper -query " . l:word
+endfu
+map gs :call GrepperWord()<cr>
+
 " anything you don't want in git, or that changes a lot, here
 source ~/.vim/local.vim
 
