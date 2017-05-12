@@ -190,10 +190,6 @@ endfunc
 
 syn sync minlines=300
 
-" Rust
-let g:deoplete#sources#rust#racer_binary='$HOME/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path='/home/edd/research/metarust'
-
 " Grepper
 nnoremap <leader>g :Grepper -tool rg<cr>
 nmap gs <plug>(GrepperOperator)
