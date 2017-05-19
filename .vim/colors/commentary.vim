@@ -4,16 +4,16 @@
 " Notes: To check the meaning of the highlight groups, :help 'highlight'
 
 " --------------------------------
-set background=dark
+"set background=dark
 " - or ---------------------------
-set background=light
+"set background=light
 " --------------------------------
 
 highlight clear
 if exists("syntax_on")
     syntax reset
 endif
-let g:colors_name="Commentary"
+let g:colors_name="commentary"
 
 "----------------------------------------------------------------
 " General settings                                              |
@@ -25,10 +25,21 @@ let g:colors_name="Commentary"
 " --------------------------------
 " Editor settings
 " --------------------------------
-hi Normal          ctermfg=242    ctermbg=none    cterm=none
+if &background == "light"
+hi Normal          ctermfg=green    ctermbg=none    cterm=none
+else
+hi Normal          ctermfg=none    ctermbg=none    cterm=none
+endif
+
 hi Cursor          ctermfg=none    ctermbg=none    cterm=none
 hi CursorLine      ctermfg=none    ctermbg=none    cterm=none
+
+if &background == "light"
 hi LineNr          ctermfg=none    ctermbg=lightgray    cterm=none
+else
+hi LineNr          ctermfg=none    ctermbg=black    cterm=none
+endif
+
 hi CursorLineNR    ctermfg=none    ctermbg=none    cterm=none
 
 " -----------------
@@ -42,40 +53,33 @@ hi Folded          ctermfg=none    ctermbg=none    cterm=none
 " -------------------------
 " - Window/Tab delimiters -
 " -------------------------
-hi VertSplit       ctermfg=none    ctermbg=none    cterm=none
+hi VertSplit       ctermfg=none    ctermbg=black    cterm=none
 hi ColorColumn     ctermfg=none    ctermbg=none    cterm=none
 hi TabLine         ctermfg=none    ctermbg=none    cterm=none
 hi TabLineFill     ctermfg=none    ctermbg=none    cterm=none
 hi TabLineSel      ctermfg=none    ctermbg=none    cterm=none
 
-" -------------------------------
-" - File Navigation / Searching -
-" -------------------------------
-hi Directory       ctermfg=none    ctermbg=none    cterm=none
-hi Search          ctermfg=none    ctermbg=142    cterm=none
-hi IncSearch       ctermfg=none    ctermbg=none    cterm=none
-
 " -----------------
 " - Prompt/Status -
 " -----------------
-hi StatusLine      ctermfg=none    ctermbg=none    cterm=inverse
-hi StatusLineNC    ctermfg=none    ctermbg=none    cterm=none
+hi StatusLine      ctermfg=yellow    ctermbg=none    cterm=inverse
+hi StatusLineNC    ctermfg=none    ctermbg=none    cterm=inverse
 hi WildMenu        ctermfg=none    ctermbg=none    cterm=none
 hi Question        ctermfg=none    ctermbg=none    cterm=none
-hi Title           ctermfg=none    ctermbg=none    cterm=none
+hi Title           ctermfg=none    ctermbg=none    cterm=inverse
 hi ModeMsg         ctermfg=none    ctermbg=none    cterm=none
 hi MoreMsg         ctermfg=none    ctermbg=none    cterm=none
 
 " --------------
 " - Visual aid -
 " --------------
-hi MatchParen      ctermfg=none    ctermbg=none    cterm=none
+hi MatchParen      ctermfg=none    ctermbg=none    cterm=inverse
 hi Visual          ctermfg=none    ctermbg=none    cterm=inverse
 hi VisualNOS       ctermfg=none    ctermbg=none    cterm=none
 hi NonText         ctermfg=none    ctermbg=none    cterm=none
 
-hi Todo            ctermfg=none    ctermbg=none    cterm=none
-hi Underlined      ctermfg=none    ctermbg=none    cterm=none
+hi Todo            ctermfg=darkcyan    ctermbg=none    cterm=none
+hi Underlined      ctermfg=none    ctermbg=none    cterm=underline
 hi Error           ctermfg=none    ctermbg=none    cterm=none
 hi ErrorMsg        ctermfg=none    ctermbg=none    cterm=none
 hi WarningMsg      ctermfg=none    ctermbg=none    cterm=none
@@ -132,10 +136,10 @@ hi Typedef         ctermfg=none    ctermbg=none    cterm=none
 " --------------------------------
 " Diff
 " --------------------------------
-hi DiffAdd         ctermfg=none    ctermbg=none    cterm=none
-hi DiffChange      ctermfg=none    ctermbg=none    cterm=none
-hi DiffDelete      ctermfg=none    ctermbg=none    cterm=none
-hi DiffText        ctermfg=none    ctermbg=none    cterm=none
+hi diffAdded         ctermfg=darkgreen    ctermbg=none    cterm=none
+hi diffChanged      ctermfg=none    ctermbg=none    cterm=none
+hi diffRemoved      ctermfg=darkred    ctermbg=none    cterm=none
+hi diffLine        ctermfg=darkcyan    ctermbg=none    cterm=none
 
 " --------------------------------
 " Completion menu
@@ -148,10 +152,17 @@ hi PmenuThumb      ctermfg=none    ctermbg=none    cterm=none
 " --------------------------------
 " Spelling
 " --------------------------------
-hi SpellBad        ctermfg=none    ctermbg=none    cterm=none
+hi SpellBad        ctermfg=darkblue    ctermbg=none    cterm=none
 hi SpellCap        ctermfg=none    ctermbg=none    cterm=none
 hi SpellLocal      ctermfg=none    ctermbg=none    cterm=none
 hi SpellRare       ctermfg=none    ctermbg=none    cterm=none
+
+" -------------------------------
+" - File Navigation / Searching -
+" -------------------------------
+hi Directory       ctermfg=none    ctermbg=none    cterm=none
+hi Search          ctermfg=lightgray    ctermbg=darkyellow    cterm=none
+hi IncSearch       ctermfg=lightgray    ctermbg=darkyellow    cterm=none
 
 "--------------------------------------------------------------------
 " Specific settings                                                 |
