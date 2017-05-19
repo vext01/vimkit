@@ -11,7 +11,7 @@ call plug#begin('~/.vim/plugged')
 "if match(hostname(), "wilfred") != -1
 "endif
 Plug 'vim-scripts/BufOnly.vim'
-Plug 'altercation/vim-colors-solarized' " colours
+"Plug 'altercation/vim-colors-solarized' " colours
 Plug 'kien/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'hynek/vim-python-pep8-indent'
@@ -75,7 +75,7 @@ set mouse=
 
 " Default terminal colour scheme
 set t_Co=256
-colors solarized
+colors commentary
 syntax on
 
 " Mark long lines
