@@ -66,7 +66,7 @@ hi StatusLine      ctermfg=yellow    ctermbg=none    cterm=inverse
 hi StatusLineNC    ctermfg=none    ctermbg=none    cterm=inverse
 hi WildMenu        ctermfg=none    ctermbg=none    cterm=none
 hi Question        ctermfg=none    ctermbg=none    cterm=none
-hi Title           ctermfg=none    ctermbg=none    cterm=inverse
+hi Title           ctermfg=none    ctermbg=none    cterm=underline
 hi ModeMsg         ctermfg=none    ctermbg=none    cterm=none
 hi MoreMsg         ctermfg=none    ctermbg=none    cterm=none
 
