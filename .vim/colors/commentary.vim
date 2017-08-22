@@ -110,7 +110,7 @@ hi Label           ctermfg=none    ctermbg=none    cterm=none
 hi Operator        ctermfg=none    ctermbg=none    cterm=none
 hi Keyword         ctermfg=none    ctermbg=none    cterm=none
 hi Exception       ctermfg=none    ctermbg=none    cterm=none
-hi Comment         ctermfg=red    ctermbg=none    cterm=italic
+hi Comment         ctermfg=red    ctermbg=none    cterm=none
 
 hi Special         ctermfg=none    ctermbg=none    cterm=none
 hi SpecialChar     ctermfg=none    ctermbg=none    cterm=none
