@@ -1,2 +1,2 @@
 syntax spell toplevel
-let g:tex_fast=1
+"let g:tex_fast=1
