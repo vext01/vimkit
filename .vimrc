@@ -25,6 +25,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 " This can go after deiplete-jedi (or something else) supports jump to def
 Plug 'davidhalter/jedi-vim'
+Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
@@ -203,5 +204,8 @@ map gs :call GrepperWord()<cr>
 
 " anything you don't want in git, or that changes a lot, here
 source ~/.vim/local.vim
+
+" lightline
+let g:lightline = { 'colorscheme': 'solarized' }
 
 set nofoldenable
