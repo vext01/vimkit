@@ -167,3 +167,5 @@ hi IncSearch       ctermfg=lightgray    ctermbg=darkyellow    cterm=none
 "--------------------------------------------------------------------
 " Specific settings                                                 |
 "--------------------------------------------------------------------
+"
+hi rustCommentLineDoc   ctermfg=red    ctermbg=none    cterm=none
