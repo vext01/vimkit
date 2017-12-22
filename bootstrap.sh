@@ -61,7 +61,7 @@ ${LNFILE} ${HERE}/.vimrc ~/.config/nvim/init.vim
 
 # Kicks off install
 #${NVIM_INST}/bin/nvim || exit $?
-vim || exit $?
+nvim || exit $?
 
 echo "Bootstrap success!"
 echo "Don't forget to put ${NVIM_INST}/bin into your path and alias vim to nvim"
