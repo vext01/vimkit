@@ -1,40 +1,12 @@
 #!/bin/sh
 HERE=`pwd`
-NVIM_INST=`pwd`/nvim-inst
-NVIM_SRC=`pwd`/neovim
 
 case `uname` in
     OpenBSD)
-        MAKE=gmake
-        LNFILE="ln -sfh"
-        ;;
+        LNFILE="ln -sfh";;
     *)
-        MAKE=make
-        LNFILE="ln -sfT"
-        ;;
+        LNFILE="ln -sfT";;
 esac
-
-install_neovim() {
-    if [ -d ${NVIM_INST} ]; then
-        echo "${NVIM_INST} already exists"
-        exit 1
-    fi
-    if [ -d ${NVIM_SRC} ]; then
-        echo "${NVIM_SRC} already exists"
-        exit 1
-    fi
-
-    git clone https://github.com/neovim/neovim.git || exit $?
-    cd ${NVIM_SRC} || exit $?
-    git checkout v0.2.0 || exit $?
-
-    # For OpenBSD, define autotools versions
-    export AUTOMAKE_VERSION=1.15
-    export AUTOCONF_VERSION=2.69
-
-    ${MAKE} CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=${NVIM_INST}" VERBOSE=1 || exit $?
-    ${MAKE} install || exit $?
-}
 
 cat <<EOD
 This script will install Edd's vimkit in ${HOME}.
@@ -45,12 +17,6 @@ Are you sure [Enter/^C]?
 EOD
 read x
 
-echo -n "build neovim? [y/n]: "
-read bn
-if [ ${bn} = "y" ]; then
-    install_neovim
-fi
-
 ${LNFILE} ${HERE}/.vimrc ~/.vimrc || exit $?
 ${LNFILE} ${HERE}/.gvimrc ~/.gvimrc || exit $?
 ${LNFILE} ${HERE}/.vim ~/.vim || exit $?
@@ -59,9 +25,6 @@ mkdir -p ~/.config || exit $?
 ${LNFILE} ${HERE}/.vim ~/.config/nvim
 ${LNFILE} ${HERE}/.vimrc ~/.config/nvim/init.vim
 
-# Kicks off install
-#${NVIM_INST}/bin/nvim || exit $?
-nvim || exit $?
+touch ~/.vim/local/vim
 
-echo "Bootstrap success!"
-echo "Don't forget to put ${NVIM_INST}/bin into your path and alias vim to nvim"
+echo "Don't forget to install your plugins"
