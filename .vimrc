@@ -26,6 +26,7 @@ Plug 'zchee/deoplete-jedi'
 " This can go after deiplete-jedi (or something else) supports jump to def
 Plug 'davidhalter/jedi-vim'
 Plug 'itchyny/lightline.vim'
+Plug 'w0rp/ale'
 
 call plug#end()
 
