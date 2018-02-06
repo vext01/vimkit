@@ -13,7 +13,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'vim-scripts/BufOnly.vim'
 "Plug 'altercation/vim-colors-solarized' " colours
 Plug 'kien/ctrlp.vim'
-Plug 'FelikZ/ctrlp-py-matcher'
+"Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
 Plug 'jamessan/vim-gnupg'
@@ -94,18 +94,18 @@ if executable('rg')
   let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
   let g:ctrlp_use_caching = 0
 endif
-let g:ctrlp_working_path_mode = ''
+let g:ctrlp_working_path_mode = 'r'
 let g:ctrlp_by_filename = 0
 let g:ctrlp_regexp = 0
 let g:ctrlp_match_window = 'order:ttb,min:10,max:40'
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+"let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:ctrlp_max_files = 0
 let g:ctrlp_custom_ignore = {
 	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
 	\ 'file': '\v\.(pyc|o|so|orig)$',
 	\ }
 nmap ` :CtrlPBuffer<cr>
-nmap <tab> :CtrlPMixed<cr>
+nmap <tab> :CtrlP<cr>
 
 " Fuzzy finder
 "nmap ` :Buffers<cr>
@@ -208,5 +208,10 @@ source ~/.vim/local.vim
 
 " lightline
 let g:lightline = { 'colorscheme': 'solarized' }
+
+" ALE
+let g:ale_rust_cargo_check_all_targets = 1
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 set nofoldenable
