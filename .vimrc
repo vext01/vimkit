@@ -58,7 +58,7 @@ map <C-c> i---8<---<cr>--->8---<esc>O
 map ;c i#include <stdio.h>#include <stdlib.h>intmain(int argc, char **argv){	return (EXIT_SUCCESS);}<esc><<
 map ;w :!fmt -76<cr>
 map ;s :%s/\s\+$//e<cr>
-map <C-j> :set spell!<cr>
+map <C-s> :set spell!<cr>
 map <C-q> :Grepper<cr>
 
 " Don't highlight the current line
