@@ -13,7 +13,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'vim-scripts/BufOnly.vim'
 "Plug 'altercation/vim-colors-solarized' " colours
 Plug 'kien/ctrlp.vim'
-"Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
 Plug 'jamessan/vim-gnupg'
@@ -106,7 +106,7 @@ let g:ctrlp_working_path_mode = 'r'
 let g:ctrlp_by_filename = 0
 let g:ctrlp_regexp = 0
 let g:ctrlp_match_window = 'order:ttb,min:10,max:40'
-"let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:ctrlp_max_files = 0
 let g:ctrlp_custom_ignore = {
 	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
