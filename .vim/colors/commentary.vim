@@ -161,7 +161,7 @@ hi SpellRare       ctermfg=none    ctermbg=none    cterm=none
 " - File Navigation / Searching -
 " -------------------------------
 hi Directory       ctermfg=none    ctermbg=none    cterm=none
-hi Search          ctermfg=lightgray    ctermbg=darkyellow    cterm=none
+hi Search          ctermfg=lightgray    ctermbg=yellow    cterm=none
 hi IncSearch       ctermfg=lightgray    ctermbg=darkyellow    cterm=none
 
 "--------------------------------------------------------------------

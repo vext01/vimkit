@@ -67,7 +67,11 @@ map ;c i#include <stdio.h>#include <stdlib.h>intmain(int argc, char **argv)
 map ;w :!fmt -76<cr>
 map ;s :%s/\s\+$//e<cr>
 map <C-s> :set spell!<cr>
+
+" Grepper
 map <C-q> :Grepper<cr>
+nmap gs  <plug>(GrepperOperator)
+xmap gs  <plug>(GrepperOperator)
 
 " Don't highlight the current line
 set nocursorline
