@@ -30,6 +30,9 @@ Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+
 
 call plug#end()
 
@@ -63,7 +66,7 @@ map <C-h> :make!<cr>
 map <C-1> :set background=dark<cr>
 map <C-2> :set background=light<cr>
 map <C-c> i---8<---<cr>--->8---<esc>O
-map ;c i#include <stdio.h>#include <stdlib.h>intmain(int argc, char **argv){	return (EXIT_SUCCESS);}<esc><<
+map ;c i#include <stdio.h>#include <stdlib.h>intmain(int argc, char **argv){return (EXIT_SUCCESS);}<esc><<
 map ;w :!fmt -76<cr>
 map ;s :%s/\s\+$//e<cr>
 map <C-s> :set spell!<cr>
@@ -101,27 +104,27 @@ map <C-@> :set number!<cr>
 
 " CTRL-P
 "
-if executable('rg')
-  set grepprg=rg\ --color=never
-  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-  let g:ctrlp_use_caching = 0
-endif
-let g:ctrlp_working_path_mode = 'r'
-let g:ctrlp_by_filename = 0
-let g:ctrlp_regexp = 0
-let g:ctrlp_match_window = 'order:ttb,min:10,max:40'
-let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-let g:ctrlp_max_files = 0
-let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
-	\ 'file': '\v\.(pyc|o|so|orig)$',
-	\ }
-nmap ` :CtrlPBuffer<cr>
-nmap <tab> :CtrlP<cr>
+"if executable('rg')
+"  set grepprg=rg\ --color=never
+"  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+"  let g:ctrlp_use_caching = 0
+"endif
+"let g:ctrlp_working_path_mode = 'r'
+"let g:ctrlp_by_filename = 0
+"let g:ctrlp_regexp = 0
+"let g:ctrlp_match_window = 'order:ttb,min:10,max:40'
+"let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+"let g:ctrlp_max_files = 0
+"let g:ctrlp_custom_ignore = {
+"	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+"	\ 'file': '\v\.(pyc|o|so|orig)$',
+"	\ }
+"nmap ` :CtrlPBuffer<cr>
+"nmap <tab> :CtrlP<cr>
 
 " Fuzzy finder
-"nmap ` :Buffers<cr>
-"nmap <tab> :Files<cr>
+nmap ` :Buffers<cr>
+nmap <tab> :Files<cr>
 
 " jedi-vim
 " Kill when deoplete-jedi supports "jump to def"

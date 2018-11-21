@@ -28,7 +28,7 @@ let g:colors_name="commentary"
 if &background == "light"
 hi Normal          ctermfg=green    ctermbg=none    cterm=none
 else
-hi Normal          ctermfg=none    ctermbg=none    cterm=none
+hi Normal          ctermfg=gray    ctermbg=none    cterm=none
 endif
 
 hi Cursor          ctermfg=none    ctermbg=none    cterm=none
@@ -37,7 +37,7 @@ hi CursorLine      ctermfg=none    ctermbg=none    cterm=none
 if &background == "light"
 hi LineNr          ctermfg=none    ctermbg=lightgray    cterm=none
 else
-hi LineNr          ctermfg=none    ctermbg=black    cterm=none
+hi LineNr          ctermfg=gray    ctermbg=black    cterm=none
 endif
 
 hi CursorLineNR    ctermfg=none    ctermbg=none    cterm=none
@@ -47,7 +47,7 @@ hi CursorLineNR    ctermfg=none    ctermbg=none    cterm=none
 " -----------------
 hi CursorColumn    ctermfg=none    ctermbg=none    cterm=none
 hi FoldColumn      ctermfg=none    ctermbg=none    cterm=none
-hi SignColumn      ctermfg=none    ctermbg=none    cterm=none
+hi SignColumn      ctermfg=none    ctermbg=black    cterm=none
 hi Folded          ctermfg=none    ctermbg=none    cterm=none
 
 " -------------------------
