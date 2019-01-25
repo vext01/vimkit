@@ -25,6 +25,6 @@ mkdir -p ~/.config || exit $?
 ${LNFILE} ${HERE}/.vim ~/.config/nvim
 ${LNFILE} ${HERE}/.vimrc ~/.config/nvim/init.vim
 
-touch ~/.vim/local/vim
+touch ~/.vim/local.vim
 
 echo "Don't forget to install your plugins"
