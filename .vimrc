@@ -230,3 +230,8 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 set nofoldenable
+
+autocmd BufNewFile,BufRead gophermap set noexpandtab
+autocmd BufNewFile,BufRead gophermap set tabstop=8
+autocmd BufNewFile,BufRead gophermap set shiftwidth=8
+autocmd BufNewFile,BufRead gophermap set textwidth=75
