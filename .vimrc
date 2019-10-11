@@ -101,7 +101,7 @@ map <C-@> :set number!<cr>
 
 " Fuzzy finder
 nmap ` :Buffers<cr>
-"nmap <tab> :Files<cr>
+nmap <C-p> :Files<cr>
 
 " jedi-vim
 " Kill when deoplete-jedi supports "jump to def"
