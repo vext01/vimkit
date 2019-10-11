@@ -216,3 +216,6 @@ autocmd BufNewFile,BufRead gophermap set textwidth=70
 
 set undodir=~/.vim/undo_dir
 set undofile
+
+let g:ale_linters = {'rust': ['rls']}
+let g:ale_rust_rls_toolchain = 'nightly'
