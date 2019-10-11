@@ -11,15 +11,13 @@ call plug#begin('~/.vim/plugged')
 "if match(hostname(), "wilfred") != -1
 "endif
 Plug 'vim-scripts/BufOnly.vim'
-"Plug 'altercation/vim-colors-solarized' " colours
-Plug 'kien/ctrlp.vim'
-Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'altercation/vim-colors-solarized' " colours
+Plug 'morhetz/gruvbox'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
 Plug 'jamessan/vim-gnupg'
 Plug 'rust-lang/rust.vim'
 Plug 'mhinz/vim-grepper'
-"Plug 'vim-latex/vim-latex'
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
@@ -71,10 +69,8 @@ map ;w :!fmt -76<cr>
 map ;s :%s/\s\+$//e<cr>
 map <C-s> :set spell!<cr>
 
-" Grepper
-map <C-q> :Grepper<cr>
-nmap gs  <plug>(GrepperOperator)
-xmap gs  <plug>(GrepperOperator)
+" Tab ot move between windows
+nmap <Tab> :wincmd w<CR>
 
 " Don't highlight the current line
 set nocursorline
@@ -93,6 +89,7 @@ set mouse=
 " Default terminal colour scheme
 set t_Co=256
 colors commentary
+"colors solarized
 syntax on
 
 " Mark long lines
@@ -102,29 +99,9 @@ set colorcolumn=80
 set number
 map <C-@> :set number!<cr>
 
-" CTRL-P
-"
-"if executable('rg')
-"  set grepprg=rg\ --color=never
-"  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-"  let g:ctrlp_use_caching = 0
-"endif
-"let g:ctrlp_working_path_mode = 'r'
-"let g:ctrlp_by_filename = 0
-"let g:ctrlp_regexp = 0
-"let g:ctrlp_match_window = 'order:ttb,min:10,max:40'
-"let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-"let g:ctrlp_max_files = 0
-"let g:ctrlp_custom_ignore = {
-"	\ 'dir':  '\v[\/]\.(git|hg|svn)$',
-"	\ 'file': '\v\.(pyc|o|so|orig)$',
-"	\ }
-"nmap ` :CtrlPBuffer<cr>
-"nmap <tab> :CtrlP<cr>
-
 " Fuzzy finder
 nmap ` :Buffers<cr>
-nmap <tab> :Files<cr>
+"nmap <tab> :Files<cr>
 
 " jedi-vim
 " Kill when deoplete-jedi supports "jump to def"
@@ -205,6 +182,7 @@ endfunc
 syn sync minlines=300
 
 " Grepper
+map <C-q> :Grepper -tool rg<cr>
 nnoremap <leader>g :Grepper -tool rg<cr>
 nmap gs <plug>(GrepperOperator)
 xmap gs <plug>(GrepperOperator)
@@ -234,4 +212,7 @@ set nofoldenable
 autocmd BufNewFile,BufRead gophermap set noexpandtab
 autocmd BufNewFile,BufRead gophermap set tabstop=8
 autocmd BufNewFile,BufRead gophermap set shiftwidth=8
-autocmd BufNewFile,BufRead gophermap set textwidth=75
+autocmd BufNewFile,BufRead gophermap set textwidth=70
+
+set undodir=~/.vim/undo_dir
+set undofile
