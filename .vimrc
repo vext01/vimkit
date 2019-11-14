@@ -262,6 +262,8 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 let g:ale_linters = {'rust': ['rls']}
 let g:ale_rust_rls_toolchain = 'nightly'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
 
 " ///
 " /// System-local config.
