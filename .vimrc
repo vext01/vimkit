@@ -95,15 +95,6 @@ colors solarized
 syn sync minlines=300
 syntax on
 
-
-" Spelling.
-hi SpellBad cterm=underline ctermfg=magenta ctermbg=none
-hi SpellCap cterm=underline ctermfg=magenta ctermbg=none
-hi SpellLocal cterm=underline ctermfg=magenta ctermbg=none
-hi SpellRare cterm=underline ctermfg=magenta ctermbg=none
-setlocal spell spelllang=en_gb
-set nospell  " Off by default, use keybinding to turn on.
-
 " Highlight trailing whitespace.
 function HighLightWhitespace()
     hi! ExtraWhitespace ctermbg=red guibg=red
@@ -141,7 +132,7 @@ imap <C-v> <C-r><C-o>+
 nmap <space> :set paste!<cr>
 
 " Insert scissor quotes.
-map <C-c> i---8<---<cr>--->8---<esc>O
+imap <C-c> ---8<---<cr>--->8---<esc>O
 
 " Insert a C program.
 map ;c i#include <stdio.h>#include <stdlib.h>intmain(int argc, char **argv){return (EXIT_SUCCESS);}<esc><<
@@ -155,7 +146,6 @@ nmap <leader>m :make!<cr>
 " Delete/change inside/around slash (e.g. 'di/')
 onoremap <silent> i/ :<C-U>normal! T/vt/<CR>
 onoremap <silent> a/ :<C-U>normal! F/vf/<CR>
-
 
 " ///
 " /// Misc Auto commands
@@ -234,6 +224,7 @@ endfunction"}}}
 " I use only GnuPG version 2.
 let g:GPGExecutable='/usr/local/bin/gpg2'
 
+
 " ///
 " /// Plugin: grepper
 " ///
@@ -265,8 +256,25 @@ let g:ale_rust_rls_toolchain = 'nightly'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 
+
 " ///
 " /// System-local config.
 " ///
+"
 
 source ~/.vim/local.vim
+
+
+" ///
+" /// Spelling.
+" /// Has to come after including local.vim, since this typically sets a
+" /// dark/light background, which resets the syntax highlighter and kills
+" /// our colour changes.
+" ///
+
+hi SpellBad cterm=underline ctermfg=red ctermbg=none
+hi SpellCap cterm=underline ctermfg=red ctermbg=none
+hi SpellLocal cterm=underline ctermfg=red ctermbg=none
+hi SpellRare cterm=underline ctermfg=red ctermbg=none
+setlocal spell spelllang=en_gb
+set nospell  " Off by default, use keybinding to turn on.
