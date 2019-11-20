@@ -50,6 +50,10 @@ Plug 'mhinz/vim-grepper'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
 Plug 'vim-scripts/BufOnly.vim'
+" Editing
+Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion'
+Plug 'tomtom/tcomment_vim'
 " Misc
 Plug 'jamessan/vim-gnupg'
 Plug 'itchyny/lightline.vim'
@@ -256,6 +260,15 @@ let g:ale_rust_rls_toolchain = 'nightly'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 
+" ///
+" /// Plugin: easymotion.
+" ///
+
+" Word forward.
+map <Leader><Leader>h <Plug>(easymotion-b)
+
+" Word backward.
+map <Leader><Leader>l <Plug>(easymotion-w)
 
 " ///
 " /// System-local config.
