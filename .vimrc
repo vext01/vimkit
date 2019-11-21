@@ -95,7 +95,8 @@ set shiftwidth=4
 
 " Colours / syntax highlighting.
 set t_Co=256
-colors solarized
+"colors solarized
+colors commentary
 syn sync minlines=300
 syntax on
 
@@ -260,6 +261,9 @@ let g:ale_rust_rls_toolchain = 'nightly'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 
+hi link ALEError       XNONE
+hi link ALEWarning     XNONE
+
 " ///
 " /// Plugin: easymotion.
 " ///
@@ -285,9 +289,9 @@ source ~/.vim/local.vim
 " /// our colour changes.
 " ///
 
-hi SpellBad cterm=underline ctermfg=red ctermbg=none
-hi SpellCap cterm=underline ctermfg=red ctermbg=none
-hi SpellLocal cterm=underline ctermfg=red ctermbg=none
-hi SpellRare cterm=underline ctermfg=red ctermbg=none
+hi SpellBad cterm=underline ctermfg=lightgreen ctermbg=none
+hi SpellCap cterm=underline ctermfg=lightgreen ctermbg=none
+hi SpellLocal cterm=underline ctermfg=lightgreen ctermbg=none
+hi SpellRare cterm=underline ctermfg=lightgreen ctermbg=none
 setlocal spell spelllang=en_gb
 set nospell  " Off by default, use keybinding to turn on.

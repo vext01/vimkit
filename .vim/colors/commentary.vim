@@ -98,7 +98,7 @@ hi Boolean         ctermfg=none    ctermbg=none    cterm=none
 hi Float           ctermfg=none    ctermbg=none    cterm=none
 
 hi Identifier      ctermfg=none    ctermbg=none    cterm=none
-hi Function        ctermfg=none    ctermbg=none    cterm=none
+hi Function        ctermfg=magenta ctermbg=none    cterm=none
 
 " --------------------------------
 " Language constructs
@@ -169,3 +169,7 @@ hi IncSearch       ctermfg=lightgray    ctermbg=darkyellow    cterm=none
 "--------------------------------------------------------------------
 "
 hi rustCommentLineDoc   ctermfg=red    ctermbg=none    cterm=none
+
+" This eliminates highlighting for some Python bits.
+hi link pythonDecoratorName  XNONE
+hi link pythonBuiltin        XNONE
