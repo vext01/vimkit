@@ -169,6 +169,7 @@ hi IncSearch       ctermfg=lightgray    ctermbg=darkyellow    cterm=none
 "--------------------------------------------------------------------
 "
 hi rustCommentLineDoc   ctermfg=red    ctermbg=none    cterm=none
+hi link rustFuncCall    XNONE
 
 " This eliminates highlighting for some Python bits.
 hi link pythonDecoratorName  XNONE
