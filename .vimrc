@@ -129,6 +129,10 @@ map <C-s> :set spell!<cr>
 " Change window.
 map <Tab> :wincmd w<CR>
 
+" Jump forward in the jump list (opposite of <c-o>).
+" This is usually mapped to <c-i> (aka <tab>), but we bound that above.
+nnoremap <c-k> <c-i>
+
 " Copy and paste sanity.
 vmap <C-c> "+y
 vmap <C_x> "+c
