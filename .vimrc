@@ -50,6 +50,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
 Plug 'vim-scripts/BufOnly.vim'
+Plug 'rhysd/clever-f.vim'
 " Editing
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
