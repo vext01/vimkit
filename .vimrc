@@ -36,15 +36,15 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " Language support.
 Plug 'w0rp/ale'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Language Support -- Python.
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
-Plug 'zchee/deoplete-jedi'
+"Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 " Language Support -- Rust.
 Plug 'rust-lang/rust.vim'
-Plug 'sebastianmarkow/deoplete-rust'
+"Plug 'sebastianmarkow/deoplete-rust'
 " Navigation/Buffers.
 Plug 'mhinz/vim-grepper'
 Plug 'junegunn/fzf.vim'
@@ -240,7 +240,7 @@ let g:GPGExecutable='/usr/local/bin/gpg2'
 " ///
 
 let g:grepper = {}
-let g:grepper.tools=['rg', 'ag']
+let g:grepper.tools=['ag', 'rg']
 let g:grepper.jump=1
 let g:grepper.simple_prompt=1
 nmap gs :Grepper -query <C-R><C-W><cr>
@@ -260,8 +260,9 @@ let g:lightline = { 'colorscheme': 'solarized' }
 let g:ale_rust_cargo_check_all_targets = 1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap gd :ALEGoToDefinition<cr>
 
-let g:ale_linters = {'rust': ['rls']}
+let g:ale_linters = {'rust': ['rls', 'cargo']}
 let g:ale_rust_rls_toolchain = 'nightly'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
