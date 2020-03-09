@@ -24,13 +24,22 @@
 " each comes with portability considerations.
 "
 "  * Ale does JTD for anything that talks language server protocol. It's good
-"    and fast, but not all languages speak the protocol. The Rust Language
-"    Server doesn't yet run on OpenBSD. RLS also uses a lot of RAM.
+"    and fast, but not all languages speak the protocol. At the time of
+"    writing, Rust Language Server doesn't build run on OpenBSD. RLS also uses
+"    a hell of a lot of RAM.
 "
 "  * Deoplete can do JTD for some languages by calling tools, but not via
 "    language servers. The Python plugin doesn't do JTD.
 "
 "  * jedi-vim does JTD for Python only.
+"
+"  As far as Rust goes, I might have used RLS on Linux only if a) I could find
+"  a way to override deoplete's keybinding, and b) it used less RAM. For now
+"  I've decided not to use it at all.
+"
+"  So in light of that, I use deoplete where possible, but jedi-vim for
+"  Python.
+
 
 " ///
 " /// Plugin Manager Setup
@@ -48,6 +57,7 @@ Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " Language support.
+Plug 'w0rp/ale'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Language Support -- Python.
 Plug 'hynek/vim-python-pep8-indent'
@@ -273,7 +283,7 @@ let g:ale_rust_cargo_check_all_targets = 1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
-let g:ale_linters = {'rust': ['rls', 'cargo']}
+let g:ale_linters = {'rust': ['cargo']}
 let g:ale_rust_rls_toolchain = 'nightly'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
