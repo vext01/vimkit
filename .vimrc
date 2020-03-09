@@ -18,6 +18,19 @@
 " I ran Vim for decades, and I all have to show is this lousy config.
 " -------------------------------------------------------------------
 
+" Notes on jump-to-definition.
+"
+" JTD is a huge mess in vim's ecosystem. There are many ways to do it and
+" each comes with portability considerations.
+"
+"  * Ale does JTD for anything that talks language server protocol. It's good
+"    and fast, but not all languages speak the protocol. The Rust Language
+"    Server doesn't yet run on OpenBSD. RLS also uses a lot of RAM.
+"
+"  * Deoplete can do JTD for some languages by calling tools, but not via
+"    language servers. The Python plugin doesn't do JTD.
+"
+"  * jedi-vim does JTD for Python only.
 
 " ///
 " /// Plugin Manager Setup
@@ -35,16 +48,15 @@ Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " Language support.
-Plug 'w0rp/ale'
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Language Support -- Python.
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
-"Plug 'zchee/deoplete-jedi'
+Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 " Language Support -- Rust.
 Plug 'rust-lang/rust.vim'
-"Plug 'sebastianmarkow/deoplete-rust'
+Plug 'sebastianmarkow/deoplete-rust'
 " Navigation/Buffers.
 Plug 'mhinz/vim-grepper'
 Plug 'junegunn/fzf.vim'
@@ -260,7 +272,6 @@ let g:lightline = { 'colorscheme': 'solarized' }
 let g:ale_rust_cargo_check_all_targets = 1
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
-nmap gd :ALEGoToDefinition<cr>
 
 let g:ale_linters = {'rust': ['rls', 'cargo']}
 let g:ale_rust_rls_toolchain = 'nightly'
