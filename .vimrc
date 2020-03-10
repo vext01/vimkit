@@ -33,6 +33,8 @@
 "
 "  * jedi-vim does JTD for Python only.
 "
+"  * vim-racer does JTD for Rust only via racer. Also does 'show docs'.
+"
 "  As far as Rust goes, I might have used RLS on Linux only if a) I could find
 "  a way to override deoplete's keybinding, and b) it used less RAM. For now
 "  I've decided not to use it at all.
@@ -66,7 +68,7 @@ Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 " Language Support -- Rust.
 Plug 'rust-lang/rust.vim'
-Plug 'sebastianmarkow/deoplete-rust'
+Plug 'racer-rust/vim-racer'
 " Navigation/Buffers.
 Plug 'mhinz/vim-grepper'
 Plug 'junegunn/fzf.vim'
@@ -77,9 +79,11 @@ Plug 'rhysd/clever-f.vim'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
 Plug 'tomtom/tcomment_vim'
+Plug 'dyng/ctrlsf.vim'
 " Misc
 Plug 'jamessan/vim-gnupg'
 Plug 'itchyny/lightline.vim'
+Plug 'lfv89/vim-interestingwords'
 call plug#end()
 
 " ///
@@ -300,6 +304,18 @@ map <Leader><Leader>h <Plug>(easymotion-b)
 
 " Word backward.
 map <Leader><Leader>l <Plug>(easymotion-w)
+
+" ///
+" /// Plugin: racer
+" ///
+
+augroup Racer
+    autocmd!
+    autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
+    autocmd FileType rust nmap <buffer> gf         <Plug>(rust-def-split)
+    autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
+augroup END
+
 
 " ///
 " /// System-local config.
