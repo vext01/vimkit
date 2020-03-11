@@ -145,7 +145,7 @@ hi diffLine        ctermfg=darkcyan    ctermbg=none    cterm=none
 " Completion menu
 " --------------------------------
 hi Pmenu           ctermfg=none    ctermbg=none    cterm=inverse
-hi PmenuSel        ctermfg=none    ctermbg=gray    cterm=none
+hi PmenuSel        ctermfg=none    ctermbg=none    cterm=none
 hi PmenuSbar       ctermfg=none    ctermbg=none    cterm=none
 hi PmenuThumb      ctermfg=none    ctermbg=none    cterm=none
 
@@ -174,3 +174,6 @@ hi link rustFuncCall    XNONE
 " This eliminates highlighting for some Python bits.
 hi link pythonDecoratorName  XNONE
 hi link pythonBuiltin        XNONE
+
+" CTRL-SF plugin
+hi link ctrlsfMatch Pmenu
