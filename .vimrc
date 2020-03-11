@@ -84,6 +84,8 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'jamessan/vim-gnupg'
 Plug 'itchyny/lightline.vim'
 Plug 'lfv89/vim-interestingwords'
+Plug 'glts/vim-magnum' " needed for radical
+Plug 'glts/vim-radical'
 call plug#end()
 
 " ///
