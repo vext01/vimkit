@@ -3,11 +3,9 @@
 " Maintainer: Gerardo Galindez <gerardo.galindez@gmail.com>
 " Notes: To check the meaning of the highlight groups, :help 'highlight'
 
-" --------------------------------
-"set background=dark
-" - or ---------------------------
-"set background=light
-" --------------------------------
+" The following (not git tracked) file should do either:
+" `set background=dark` or `set background=light`
+source ~/.vim/background.vim
 
 highlight clear
 if exists("syntax_on")
@@ -78,7 +76,7 @@ hi Visual          ctermfg=none    ctermbg=none    cterm=inverse
 hi VisualNOS       ctermfg=none    ctermbg=none    cterm=none
 hi NonText         ctermfg=none    ctermbg=none    cterm=none
 
-hi Todo            ctermfg=darkcyan    ctermbg=none    cterm=none
+hi Todo            ctermfg=none    ctermbg=lightred cterm=none
 hi Underlined      ctermfg=none    ctermbg=none    cterm=underline
 hi Error           ctermfg=none    ctermbg=none    cterm=none
 hi ErrorMsg        ctermfg=none    ctermbg=none    cterm=none
@@ -98,7 +96,11 @@ hi Boolean         ctermfg=none    ctermbg=none    cterm=none
 hi Float           ctermfg=none    ctermbg=none    cterm=none
 
 hi Identifier      ctermfg=none    ctermbg=none    cterm=none
+if &background == "light"
+hi Function        ctermfg=black ctermbg=lightyellow cterm=none
+else
 hi Function        ctermfg=magenta ctermbg=none    cterm=none
+endif
 
 " --------------------------------
 " Language constructs
@@ -152,10 +154,17 @@ hi PmenuThumb      ctermfg=none    ctermbg=none    cterm=none
 " --------------------------------
 " Spelling
 " --------------------------------
-hi SpellBad        ctermfg=darkblue    ctermbg=none    cterm=none
-hi SpellCap        ctermfg=none    ctermbg=none    cterm=none
-hi SpellLocal      ctermfg=none    ctermbg=none    cterm=none
-hi SpellRare       ctermfg=none    ctermbg=none    cterm=none
+if &background == "light"
+hi SpellBad cterm=underline ctermfg=lightblue ctermbg=none
+hi SpellCap cterm=underline ctermfg=lightblue ctermbg=none
+hi SpellLocal cterm=underline ctermfg=lightblue ctermbg=none
+hi SpellRare cterm=underline ctermfg=lightblue ctermbg=none
+else
+hi SpellBad cterm=underline ctermfg=lightgreen ctermbg=none
+hi SpellCap cterm=underline ctermfg=lightgreen ctermbg=none
+hi SpellLocal cterm=underline ctermfg=lightgreen ctermbg=none
+hi SpellRare cterm=underline ctermfg=lightgreen ctermbg=none
+endif
 
 " -------------------------------
 " - File Navigation / Searching -

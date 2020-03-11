@@ -127,6 +127,10 @@ colors commentary
 syn sync minlines=300
 syntax on
 
+" Spelling
+setlocal spell spelllang=en_gb
+set nospell  " Off by default, use keybinding to turn on.
+
 " Highlight trailing whitespace.
 function HighLightWhitespace()
     hi! ExtraWhitespace ctermbg=red guibg=red
@@ -323,18 +327,3 @@ augroup END
 "
 
 source ~/.vim/local.vim
-
-
-" ///
-" /// Spelling.
-" /// Has to come after including local.vim, since this typically sets a
-" /// dark/light background, which resets the syntax highlighter and kills
-" /// our colour changes.
-" ///
-
-hi SpellBad cterm=underline ctermfg=lightgreen ctermbg=none
-hi SpellCap cterm=underline ctermfg=lightgreen ctermbg=none
-hi SpellLocal cterm=underline ctermfg=lightgreen ctermbg=none
-hi SpellRare cterm=underline ctermfg=lightgreen ctermbg=none
-setlocal spell spelllang=en_gb
-set nospell  " Off by default, use keybinding to turn on.
