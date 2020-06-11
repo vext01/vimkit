@@ -123,13 +123,6 @@ set tabstop=4
 set expandtab
 set shiftwidth=4
 
-" Colours / syntax highlighting.
-set t_Co=256
-"colors solarized
-colors commentary
-syn sync minlines=300
-syntax on
-
 " Spelling
 setlocal spell spelllang=en_gb
 set nospell  " Off by default, use keybinding to turn on.
@@ -333,3 +326,14 @@ augroup END
 "
 
 source ~/.vim/local.vim
+
+" ///
+" /// Colours / syntax highlighting.
+" /// We do this last, or weird stuff happens.
+" ///
+
+set t_Co=256
+"colors solarized
+colors commentary
+syn sync minlines=300
+syntax on
