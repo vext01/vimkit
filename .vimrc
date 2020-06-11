@@ -75,6 +75,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'rhysd/clever-f.vim'
+Plug 'christoomey/vim-tmux-navigator'
 " Editing
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
@@ -189,6 +190,9 @@ nmap <leader>m :make!<cr>
 onoremap <silent> i/ :<C-U>normal! T/vt/<CR>
 onoremap <silent> a/ :<C-U>normal! F/vf/<CR>
 
+" Turn off higlight search.
+map <C-n> :noh<cr>
+
 " ///
 " /// Misc Auto commands
 " ///
@@ -290,8 +294,8 @@ let g:lightline = { 'colorscheme': 'solarized' }
 " ///
 
 let g:ale_rust_cargo_check_all_targets = 1
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <silent> <C-up> <Plug>(ale_previous_wrap)
+nmap <silent> <C-down> <Plug>(ale_next_wrap)
 
 let g:ale_linters = {'rust': ['cargo']}
 let g:ale_rust_rls_toolchain = 'nightly'
