@@ -87,6 +87,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'lfv89/vim-interestingwords'
 Plug 'glts/vim-magnum' " needed for radical
 Plug 'glts/vim-radical'
+Plug 'djoshea/vim-autoread'
 call plug#end()
 
 " ///
@@ -116,7 +117,6 @@ set nojoinspaces    " Don't add extra spaces when joining lines.
 set clipboard+=unnamedplus  " sync with system clipboard.
 set undodir=~/.vim/undo_dir " Remember undo for each file.
 set undofile                " ^^^
-
 
 " Use spaces for indent, unless overidden elsewhere.
 set tabstop=4
@@ -152,13 +152,6 @@ map ;s :%s/\s\+$//e<cr>
 
 " Toggle spelling.
 map <C-s> :set spell!<cr>
-
-" Change window.
-map <Tab> :wincmd w<CR>
-
-" Jump forward in the jump list (opposite of <c-o>).
-" This is usually mapped to <c-i> (aka <tab>), but we bound that above.
-nnoremap <c-k> <c-i>
 
 " Copy and paste sanity.
 vmap <C-c> "+y
@@ -213,6 +206,7 @@ autocmd BufNewFile,BufRead gophermap set textwidth=70
 " /// Plugin: fzf
 " ///
 
+let g:fzf_preview_window = ''
 nmap ` :Buffers<cr>
 nmap <C-p> :Files<cr>
 
