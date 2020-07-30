@@ -18,31 +18,6 @@
 " I ran Vim for decades, and I all have to show is this lousy config.
 " -------------------------------------------------------------------
 
-" Notes on jump-to-definition.
-"
-" JTD is a huge mess in vim's ecosystem. There are many ways to do it and
-" each comes with portability considerations.
-"
-"  * Ale does JTD for anything that talks language server protocol. It's good
-"    and fast, but not all languages speak the protocol. At the time of
-"    writing, Rust Language Server doesn't build run on OpenBSD. RLS also uses
-"    a hell of a lot of RAM.
-"
-"  * Deoplete can do JTD for some languages by calling tools, but not via
-"    language servers. The Python plugin doesn't do JTD.
-"
-"  * jedi-vim does JTD for Python only.
-"
-"  * vim-racer does JTD for Rust only via racer. Also does 'show docs'.
-"
-"  As far as Rust goes, I might have used RLS on Linux only if a) I could find
-"  a way to override deoplete's keybinding, and b) it used less RAM. For now
-"  I've decided not to use it at all.
-"
-"  So in light of that, I use deoplete where possible, but jedi-vim for
-"  Python.
-
-
 " ///
 " /// Plugin Manager Setup
 " ///
@@ -59,18 +34,18 @@ Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " Language support.
+" Use Ale wherever possible.
+let g:ale_completion_enabled = 1 " must come before loading ale
 Plug 'w0rp/ale'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Language Support -- Python.
+" Use `pip install python-language-server` to have Python support in Ale.
 Plug 'hynek/vim-python-pep8-indent'
-Plug 'nvie/vim-flake8'
-Plug 'zchee/deoplete-jedi'
-Plug 'davidhalter/jedi-vim'
 " Language Support -- Rust.
+" Have rust-analyzer in the PATH to use it with Ale.
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 " Navigation/Buffers.
-Plug 'mhinz/vim-grepper'
+Plug 'jremmen/vim-ripgrep'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf'
 Plug 'vim-scripts/BufOnly.vim'
@@ -221,36 +196,6 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
 " ///
-" /// Plugin: jedi-vim
-" ///
-" /// Kill when deoplete-jedi supports "jump to def":
-" /// https://github.com/deoplete-plugins/deoplete-jedi/issues/35
-" ///
-
-let g:jedi#popup_on_dot=0
-let g:jedi#use_tabs_not_buffers=0
-let g:jedi#show_call_signatures=0
-
-
-" ///
-" /// Plugin: deoplete
-" ///
-
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#disable_auto_complete = 1
-
-" Manual completion. From `:help deoplete`.
-inoremap <silent><expr> <C-space>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ deoplete#mappings#manual_complete()
-function! s:check_back_space() abort "{{{
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-
-
-" ///
 " /// Plugin: vim-gnupg
 " ///
 
@@ -259,15 +204,11 @@ let g:GPGExecutable='/usr/local/bin/gpg2'
 
 
 " ///
-" /// Plugin: grepper
+" /// Plugin: vim-ripgrep
 " ///
 
-let g:grepper = {}
-let g:grepper.tools=['ag', 'rg']
-let g:grepper.jump=1
-let g:grepper.simple_prompt=1
-nmap gs :Grepper -query <C-R><C-W><cr>
-nmap <leader>g :Grepper<cr>
+nmap gs :Rg <C-R><C-W><cr>
+nmap <leader>g :Rg 
 
 " ///
 " /// Plugin: lightline
@@ -280,14 +221,18 @@ let g:lightline = { 'colorscheme': 'solarized' }
 " /// Plugin: ale
 " ///
 
-let g:ale_rust_cargo_check_all_targets = 1
+"let g:ale_rust_cargo_check_all_targets = 1
 nmap <silent> <C-up> <Plug>(ale_previous_wrap)
 nmap <silent> <C-down> <Plug>(ale_next_wrap)
+nmap gd :ALEGoToDefinition<cr>
 
-let g:ale_linters = {'rust': ['cargo']}
-let g:ale_rust_rls_toolchain = 'nightly'
+"let g:ale_linters = {'rust': ['cargo']}
+let g:ale_linters = {'rust': ['analyzer'], 'python': ['pyls']}
+"let g:ale_rust_rls_toolchain = 'nightly'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
+let g:ale_completion_enabled=0 " only manually triggered, thanks.
+set completeopt=menu
 
 hi link ALEError       XNONE
 hi link ALEWarning     XNONE
@@ -301,18 +246,6 @@ map <Leader><Leader>h <Plug>(easymotion-b)
 
 " Word backward.
 map <Leader><Leader>l <Plug>(easymotion-w)
-
-" ///
-" /// Plugin: racer
-" ///
-
-augroup Racer
-    autocmd!
-    autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
-    autocmd FileType rust nmap <buffer> gf         <Plug>(rust-def-split)
-    autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
-augroup END
-
 
 " ///
 " /// System-local config.
