@@ -45,7 +45,13 @@ hi CursorLineNR    ctermfg=none    ctermbg=none    cterm=none
 " -----------------
 hi CursorColumn    ctermfg=none    ctermbg=none    cterm=none
 hi FoldColumn      ctermfg=none    ctermbg=none    cterm=none
-hi SignColumn      ctermfg=none    ctermbg=black    cterm=none
+
+if &background == "light"
+hi SignColumn      ctermfg=none    ctermbg=lightgray cterm=none
+else
+hi SignColumn      ctermfg=gray    ctermbg=black    cterm=none
+endif
+
 hi Folded          ctermfg=none    ctermbg=none    cterm=none
 
 " -------------------------
@@ -76,9 +82,9 @@ hi Visual          ctermfg=none    ctermbg=none    cterm=inverse
 hi VisualNOS       ctermfg=none    ctermbg=none    cterm=none
 hi NonText         ctermfg=none    ctermbg=none    cterm=none
 
-hi Todo            ctermfg=none    ctermbg=lightred cterm=none
+hi Todo            ctermfg=none    ctermbg=lightyellow cterm=none
 hi Underlined      ctermfg=none    ctermbg=none    cterm=underline
-hi Error           ctermfg=none    ctermbg=none    cterm=none
+hi Error           ctermfg=none    ctermbg=lightred cterm=none " used in linters
 hi ErrorMsg        ctermfg=none    ctermbg=none    cterm=none
 hi WarningMsg      ctermfg=none    ctermbg=none    cterm=none
 hi Ignore          ctermfg=none    ctermbg=none    cterm=none
@@ -97,7 +103,7 @@ hi Float           ctermfg=none    ctermbg=none    cterm=none
 
 hi Identifier      ctermfg=none    ctermbg=none    cterm=none
 if &background == "light"
-hi Function        ctermfg=black ctermbg=lightyellow cterm=none
+hi Function        ctermfg=black ctermbg=none      cterm=italic
 else
 hi Function        ctermfg=magenta ctermbg=none    cterm=none
 endif
