@@ -62,6 +62,7 @@ Plug 'lfv89/vim-interestingwords'
 Plug 'glts/vim-magnum' " needed for radical
 Plug 'glts/vim-radical'
 Plug 'djoshea/vim-autoread'
+Plug 'Yggdroot/indentLine'
 call plug#end()
 
 " ///
@@ -175,6 +176,11 @@ autocmd BufNewFile,BufRead gophermap set tabstop=8
 autocmd BufNewFile,BufRead gophermap set shiftwidth=8
 autocmd BufNewFile,BufRead gophermap set textwidth=70
 
+" ///
+" /// Plugin: indentline
+" ///
+
+let g:indentLine_char = '┊'
 
 " ///
 " /// Plugin: fzf
