@@ -34,7 +34,11 @@ Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " Language support.
+Plug 'prabirshrestha/async.vim'    " Needed for vim-lsp
 Plug 'prabirshrestha/vim-lsp'
+Plug 'ncm2/ncm2'                   " Nvim completion manager
+Plug 'ncm2/ncm2-vim-lsp'           " Bridges vim-lsp and ncm2
+Plug 'roxma/nvim-yarp'             " Remote plugin framework (needed for NCM2)
 " Language Support -- Python.
 Plug 'hynek/vim-python-pep8-indent'
 " Language Support -- Rust.
@@ -236,6 +240,8 @@ if executable('pyls')
 endif
 
 if executable('rust-analyzer')
+    " Either install rust-src from rustup or set RUST_SRC_PATH to the
+    " `library` subdir of a rust source checkout.
     au User lsp_setup call lsp#register_server({
         \ 'name': 'rust-analyzer',
         \ 'cmd': {server_info->['rust-analyzer']},
@@ -271,6 +277,15 @@ let g:lsp_diagnostics_float_delay=0
 let g:lsp_virtual_text_enabled=0
 
 " ///
+" /// Plugin: ncm2
+" ///
+
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+noremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" ///
 " /// System-local config.
 " ///
 "
@@ -284,6 +299,7 @@ source ~/.vim/local.vim
 
 set t_Co=256
 "colors solarized
+"colors gruvbox
 colors commentary
 syn sync minlines=300
 syntax on
