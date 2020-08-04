@@ -34,7 +34,10 @@ Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " Language support.
-Plug 'prabirshrestha/vim-lsp'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 " Language Support -- Python.
 Plug 'hynek/vim-python-pep8-indent'
 " Language Support -- Rust.
@@ -222,53 +225,20 @@ map <Leader><Leader>h <Plug>(easymotion-b)
 map <Leader><Leader>l <Plug>(easymotion-w)
 
 " ///
-" /// Plugin: vim-lsp
+" /// Plugin: languageclient-neovim
 " ///
 
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'allowlist': ['python'],
-        \ })
-
-endif
-
+set hidden
 if executable('rust-analyzer')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'rust-analyzer',
-        \ 'cmd': {server_info->['rust-analyzer']},
-        \ 'allowlist': ['rust'],
-        \ })
+    let g:LanguageClient_serverCommands = {
+            \ 'rust': ['rust-analyzer'],
+    \ }
 endif
 
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> <C-up> <Plug>(lsp-previous-diagnostic)
-    nmap <buffer> <C-down> <Plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
-endfunction
-
-augroup lsp_install
-    au!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
-let g:lsp_signs_error = {'text': 'X'}
-let g:lsp_signs_warning = {'text': '!'}
-let g:lsp_signs_hint = {'test': '•'}
-
-let g:lsp_diagnostics_float_cursor=1
-let g:lsp_diagnostics_float_delay=0
-let g:lsp_virtual_text_enabled=0
+" Hover turns off syntax highlight for some reason.
+"nmap <silent>K <Plug>(lcn-hover)
+let g:LanguageClient_useVirtualText="No"
+nmap <silent> gd <Plug>(lcn-definition)
 
 " ///
 " /// System-local config.
