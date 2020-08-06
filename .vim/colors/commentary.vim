@@ -82,9 +82,14 @@ hi Visual          ctermfg=none    ctermbg=none    cterm=inverse
 hi VisualNOS       ctermfg=none    ctermbg=none    cterm=none
 hi NonText         ctermfg=none    ctermbg=none    cterm=none
 
-hi Todo            ctermfg=none    ctermbg=lightyellow cterm=none
 hi Underlined      ctermfg=none    ctermbg=none    cterm=underline
+if &background == "light"
 hi Error           ctermfg=none    ctermbg=lightred cterm=none " used in linters
+hi Todo            ctermfg=none    ctermbg=lightyellow cterm=none
+else
+hi Error           ctermfg=black    ctermbg=red cterm=none " used in linters
+hi Todo            ctermfg=black    ctermbg=darkyellow cterm=none
+endif
 hi ErrorMsg        ctermfg=none    ctermbg=none    cterm=none
 hi WarningMsg      ctermfg=none    ctermbg=none    cterm=none
 hi Ignore          ctermfg=none    ctermbg=none    cterm=none
