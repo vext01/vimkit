@@ -108,7 +108,7 @@ hi Float           ctermfg=none    ctermbg=none    cterm=none
 
 hi Identifier      ctermfg=none    ctermbg=none    cterm=none
 if &background == "light"
-hi Function        ctermfg=black ctermbg=none      cterm=italic
+hi Function        ctermfg=blue ctermbg=none      cterm=italic
 else
 hi Function        ctermfg=magenta ctermbg=none    cterm=none
 endif

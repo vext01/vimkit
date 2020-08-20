@@ -62,7 +62,6 @@ Plug 'lfv89/vim-interestingwords'
 Plug 'glts/vim-magnum' " needed for radical
 Plug 'glts/vim-radical'
 Plug 'djoshea/vim-autoread'
-Plug 'Yggdroot/indentLine'
 call plug#end()
 
 " ///
@@ -84,7 +83,7 @@ set backspace=indent,eol,start " Backspace in insert mode.
 set nocursorline    " Don't highlight the current line.
 set cmdheight=1     " Kill annoying :Exp prompt.
 set vb t_vb=        " I hate terminal bell
-"set mouse=         " No mouse.
+set mouse=a
 set colorcolumn=80  " Mark long lines.
 set number          " Enable number gutter.
 set nofoldenable    " Disable folding.
@@ -175,12 +174,6 @@ autocmd BufNewFile,BufRead gophermap set noexpandtab
 autocmd BufNewFile,BufRead gophermap set tabstop=8
 autocmd BufNewFile,BufRead gophermap set shiftwidth=8
 autocmd BufNewFile,BufRead gophermap set textwidth=70
-
-" ///
-" /// Plugin: indentline
-" ///
-
-let g:indentLine_char = '┊'
 
 " ///
 " /// Plugin: fzf
