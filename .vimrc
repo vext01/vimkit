@@ -35,12 +35,12 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " Language support.
 Plug 'prabirshrestha/async.vim'    " Needed for vim-lsp
-"Plug 'prabirshrestha/vim-lsp'
-"Plug 'ncm2/ncm2'                   " Nvim completion manager
-"Plug 'ncm2/ncm2-vim-lsp'           " Bridges vim-lsp and ncm2
-Plug 'neovim/nvim-lspconfig'	   " Configurator for neovim-0.5 built-in lsp.
-Plug 'nvim-lua/diagnostic-nvim'	   " Extends nvim-lspconfig.
-"Plug 'roxma/nvim-yarp'             " Remote plugin framework (needed for NCM2)
+Plug 'prabirshrestha/vim-lsp'
+Plug 'ncm2/ncm2'                   " Nvim completion manager
+Plug 'ncm2/ncm2-vim-lsp'           " Bridges vim-lsp and ncm2
+Plug 'roxma/nvim-yarp'             " Remote plugin framework (needed for NCM2)
+"Plug 'neovim/nvim-lspconfig'	   " Configurator for neovim-0.5 built-in lsp.
+"Plug 'nvim-lua/diagnostic-nvim'	   " Extends nvim-lspconfig.
 " Language Support -- Python.
 Plug 'hynek/vim-python-pep8-indent'
 " Language Support -- Rust.
@@ -93,6 +93,7 @@ set nojoinspaces    " Don't add extra spaces when joining lines.
 set clipboard+=unnamedplus  " sync with system clipboard.
 set undodir=~/.vim/undo_dir " Remember undo for each file.
 set undofile                " ^^^
+set inccommand=nosplit " live substitutions.
 
 " Use spaces for indent, unless overidden elsewhere.
 set tabstop=4
@@ -230,106 +231,117 @@ map <Leader><Leader>l <Plug>(easymotion-w)
 " /// Plugin: vim-lsp
 " ///
 
-"if executable('pyls')
-"    " pip install python-language-server
-"    au User lsp_setup call lsp#register_server({
-"        \ 'name': 'pyls',
-"        \ 'cmd': {server_info->['pyls']},
-"        \ 'allowlist': ['python'],
-"        \ })
-"
-"endif
-"
-"if executable('rust-analyzer')
-"    " Either install rust-src from rustup or set RUST_SRC_PATH to the
-"    " `library` subdir of a rust source checkout.
-"    au User lsp_setup call lsp#register_server({
-"        \ 'name': 'rust-analyzer',
-"        \ 'cmd': {server_info->['rust-analyzer']},
-"        \ 'allowlist': ['rust'],
-"        \ })
-"endif
-"
-"function! s:on_lsp_buffer_enabled() abort
-"    setlocal omnifunc=lsp#complete
-"    setlocal signcolumn=yes
-"    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-"    nmap <buffer> gd <plug>(lsp-definition)
-"    nmap <buffer> gr <plug>(lsp-references)
-"    nmap <buffer> gi <plug>(lsp-implementation)
-"    nmap <buffer> gt <plug>(lsp-type-definition)
-"    nmap <buffer> <leader>rn <plug>(lsp-rename)
-"    nmap <buffer> <C-up> <Plug>(lsp-previous-diagnostic)
-"    nmap <buffer> <C-down> <Plug>(lsp-next-diagnostic)
-"    nmap <buffer> K <plug>(lsp-hover)
-"endfunction
-"
-"augroup lsp_install
-"    au!
-"    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-"augroup END
-"
-"let g:lsp_signs_error = {'text': 'X'}
-"let g:lsp_signs_warning = {'text': '!'}
-"let g:lsp_signs_hint = {'test': '•'}
-"
-"let g:lsp_diagnostics_float_cursor=1
-"let g:lsp_diagnostics_float_delay=0
-"let g:lsp_virtual_text_enabled=0
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'allowlist': ['python'],
+        \ })
+
+endif
+
+if executable('rust-analyzer')
+    " Either install rust-src from rustup or set RUST_SRC_PATH to the
+    " `library` subdir of a rust source checkout.
+    if filereadable("x.py")
+        " Rust compiler.
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'rust-analyzer',
+                    \ 'cmd': {server_info->['rust-analyzer']},
+                    \ 'allowlist': ['rust'],
+                    \ 'workspace_config': {'rust-analyzer': {'checkOnSave': {'overrideCommand': './x.py check --json-output'}}},
+                    \ })
+    else
+        " Normal project.
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'rust-analyzer',
+                    \ 'cmd': {server_info->['rust-analyzer']},
+                    \ 'allowlist': ['rust'],
+                    \ })
+    endif
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> <C-up> <Plug>(lsp-previous-diagnostic)
+    nmap <buffer> <C-down> <Plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+endfunction
+
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+let g:lsp_signs_error = {'text': 'X'}
+let g:lsp_signs_warning = {'text': '!'}
+let g:lsp_signs_hint = {'test': '•'}
+
+let g:lsp_diagnostics_float_cursor=1
+let g:lsp_diagnostics_float_delay=0
+let g:lsp_virtual_text_enabled=0
 
 " ///
 " /// Plugin vim-lspconfig
 " ///
 
-if filereadable("x.py")
-lua <<EOF
-require('nvim_lsp').rust_analyzer.setup {
-  on_attach=require'diagnostic'.on_attach,
-  settings = {
-    ['rust-analyzer'] = {
-      checkOnSave = {
-        overrideCommand = {'./x.py', 'check', '--json-output'}
-      }
-    }
-  }
-}
-EOF
-else
-lua require'nvim_lsp'.rust_analyzer.setup{on_attach=require'diagnostic'.on_attach}
-endif
-
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-
-autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
+"if filereadable("x.py")
+"lua <<EOF
+"require('nvim_lsp').rust_analyzer.setup {
+"  on_attach=require'diagnostic'.on_attach,
+"  settings = {
+"    ['rust-analyzer'] = {
+"      checkOnSave = {
+"        overrideCommand = {'./x.py', 'check', '--json-output'}
+"      }
+"    }
+"  }
+"}
+"EOF
+"else
+"lua require'nvim_lsp'.rust_analyzer.setup{on_attach=require'diagnostic'.on_attach}
+"endif
+"
+"nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+"nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+"nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+"nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+"nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+"nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+"nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+"nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+"nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+"
+"autocmd Filetype rust setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 " ///
 " /// Plugin diagnostic-nvim
 " ///
 
-" Doesn't seem to work in ykrustc sadly.
-nnoremap <buffer> <C-up> :PrevDiagnosticCycle<cr>
-nnoremap <buffer> <C-down> :NextDiagnosticCycle<cr>
-
-" https://github.com/nvim-lua/diagnostic-nvim/issues/71
-command! CurrentLineDiagnostic lua require'jumpLoc'.openLineDiagnostics()
-nnoremap <buffer> <C-y> :CurrentLineDiagnostic<cr>
+"" Doesn't seem to work in ykrustc sadly.
+"nnoremap <buffer> <C-up> :PrevDiagnosticCycle<cr>
+"nnoremap <buffer> <C-down> :NextDiagnosticCycle<cr>
+"
+"" https://github.com/nvim-lua/diagnostic-nvim/issues/71
+"command! CurrentLineDiagnostic lua require'jumpLoc'.openLineDiagnostics()
+"nnoremap <buffer> <C-y> :CurrentLineDiagnostic<cr>
 
 " ///
 " /// Plugin: ncm2
 " ///
 
-"autocmd BufEnter * call ncm2#enable_for_buffer()
-"set completeopt=noinsert,menuone,noselect
-"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-"noremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+noremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " ///
 " /// System-local config.
