@@ -30,6 +30,7 @@ endif
 call plug#begin('~/.vim/plugged')
 " Colour schemes.
 Plug 'altercation/vim-colors-solarized'
+Plug 'robertmeta/nofrils'
 Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -242,8 +243,6 @@ if executable('pyls')
 endif
 
 if executable('rust-analyzer')
-    " Either install rust-src from rustup or set RUST_SRC_PATH to the
-    " `library` subdir of a rust source checkout.
     if filereadable("x.py")
         " Rust compiler.
         au User lsp_setup call lsp#register_server({
@@ -252,8 +251,19 @@ if executable('rust-analyzer')
                     \ 'allowlist': ['rust'],
                     \ 'workspace_config': {'rust-analyzer': {'checkOnSave': {'overrideCommand': './x.py check --json-output'}}},
                     \ })
+    elseif filereadable("ykshim_client/Cargo.toml")
+        " It's the yk repo.
+        au User lsp_setup call lsp#register_server({
+                    \ 'name': 'rust-analyzer',
+                    \ 'cmd': {server_info->['rust-analyzer']},
+                    \ 'allowlist': ['rust'],
+                    \ 'workspace_config': {'rust-analyzer': {'linkedProjects': ['internal_ws/Cargo.toml']}},
+                    \ })
     else
         " Normal project.
+        "
+        " Either install rust-src from rustup or set RUST_SRC_PATH to the
+        " `library` subdir of a rust source checkout.
         au User lsp_setup call lsp#register_server({
                     \ 'name': 'rust-analyzer',
                     \ 'cmd': {server_info->['rust-analyzer']},
@@ -288,6 +298,7 @@ let g:lsp_signs_hint = {'test': '•'}
 let g:lsp_diagnostics_float_cursor=1
 let g:lsp_diagnostics_float_delay=0
 let g:lsp_virtual_text_enabled=0
+let g:lsp_diagnostics_virtual_text_enabled = 0
 
 " ///
 " /// Plugin vim-lspconfig
@@ -355,9 +366,13 @@ source ~/.vim/local.vim
 " /// We do this last, or weird stuff happens.
 " ///
 
-set t_Co=256
+"set t_Co=256
+"let g:solarized_contrast="high"
+"let g:solarized_termcolors=256
+syntax on
+set background=light
+colors nofrils-acme
 "colors solarized
-colors gruvbox
+"colors gruvbox
 "colors commentary
 syn sync minlines=300
-syntax on
