@@ -370,9 +370,8 @@ source ~/.vim/local.vim
 "let g:solarized_contrast="high"
 "let g:solarized_termcolors=256
 syntax on
-set background=light
-colors nofrils-acme
+"colors nofrils-acme
 "colors solarized
-"colors gruvbox
+colors gruvbox
 "colors commentary
 syn sync minlines=300

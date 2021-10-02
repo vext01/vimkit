@@ -8,6 +8,3 @@ syntax spell toplevel
 
 " Syntax highlight is so slow in TeX.
 syntax off
-
-" I don't care for the suggestions Ale gives.
-ALEDisable

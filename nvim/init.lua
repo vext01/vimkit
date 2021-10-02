@@ -51,7 +51,9 @@ end)
 -- gruvbox
 
 vim.o.termguicolors = true
-vim.cmd [[colorscheme nofrils-acme]]
+vim.g.gruvbox_material_palette = 'mix'
+vim.cmd [[colorscheme gruvbox-material]]
+--vim.cmd [[colorscheme nofrils-acme]]
 
 -- LSP
 
