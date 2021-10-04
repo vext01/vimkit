@@ -27,8 +27,10 @@ require('packer').startup(function()
   use 'jamessan/vim-gnupg' -- GPG support
   use 'ray-x/lsp_signature.nvim' -- Show func sigs
   use 'ntpeters/vim-better-whitespace' -- Highlight trailing whitespace
-  use 'farmergreg/vim-lastplace' -- Open files at the last edited place.
-  use 'lfv89/vim-interestingwords' -- Highlight interesting words.
+  use 'farmergreg/vim-lastplace' -- Open files at the last edited place
+  use 'lfv89/vim-interestingwords' -- Highlight interesting words
+  use 'tomtom/tcomment_vim' -- Comment lines easily
+  use 'airblade/vim-gitgutter' -- Diff symbols in gutter
 
   -- Completion
   use 'hrsh7th/nvim-cmp'
@@ -50,7 +52,9 @@ require('packer').startup(function()
   use 'robertmeta/nofrils'
 end)
 
+----------
 -- gruvbox
+----------
 
 vim.o.termguicolors = true
 vim.g.gruvbox_material_palette = 'mix'
@@ -261,6 +265,7 @@ vim.o.number = true -- Line number gutter
 vim.o.clipboard = 'unnamedplus' -- sync with system clipboard
 vim.o.undofile = true -- per-file undo
 vim.o.inccommand = 'nosplit' -- live substitutions
+vim.o.updatetime = 1000 -- update stuff (like the git gutter) quicker
 
 -- Spelling.
 vim.o.spelllang = 'en_gb'
