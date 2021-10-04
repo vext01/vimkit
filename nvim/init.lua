@@ -26,20 +26,23 @@ require('packer').startup(function()
   use 'christoomey/vim-tmux-navigator' -- tmux integration
   use 'jamessan/vim-gnupg' -- GPG support
   use 'ray-x/lsp_signature.nvim' -- Show func sigs
+  use 'ntpeters/vim-better-whitespace' -- Highlight trailing whitespace
 
   -- Completion
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp' -- LSP completion.
   use 'hrsh7th/cmp-path' -- Add completion of filesystem paths
   use 'hrsh7th/cmp-buffer' -- Add completion of text in the current buffer
-  use 'saadparwaiz1/cmp_luasnip'
 
-  use 'L3MON4D3/LuaSnip' -- Snippets
+  -- Snippets
+  use 'L3MON4D3/LuaSnip'
+  use 'SirVer/ultisnips'
+  use 'saadparwaiz1/cmp_luasnip'
 
   -- Fuzzy finder
   use { 'nvim-telescope/telescope.nvim', requires={ 'nvim-lua/plenary.nvim' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', requires={ 'nvim-telescope/telescope.nvim' }, run='gmake' }
-  
+
   -- Colour schemes
   use 'sainnhe/gruvbox-material'
   use 'morhetz/gruvbox'
@@ -55,7 +58,9 @@ vim.g.gruvbox_material_palette = 'mix'
 vim.cmd [[colorscheme gruvbox-material]]
 --vim.cmd [[colorscheme nofrils-acme]]
 
+------
 -- LSP
+------
 
 local nvim_lsp = require 'lspconfig'
 
@@ -117,7 +122,9 @@ local setup = {
 }
 nvim_lsp['rust_analyzer'].setup(setup)
 
+------------
 -- telescope
+------------
 
 local actions = require('telescope.actions')
 require('telescope').setup{
@@ -166,7 +173,9 @@ vim.api.nvim_set_keymap('n', '<leader>sp', [[<cmd>lua require('telescope.builtin
 vim.api.nvim_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true, silent = true })
 
+-----------
 -- nvim-cmp
+-----------
 
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
@@ -219,11 +228,36 @@ cmp.setup {
 }
 vim.api.nvim_set_keymap('', '<C-space>', 'lua cmp.complete()', {silent=true,noremap=true})
 
+---------------
 -- cmp_nvim_lsp
+---------------
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
--- XXX
+------------------------
+-- vim-better-whitespace
+------------------------
 
---vim.o.background = 'light'
+-- Is annoying when writing mail because the mail signature and inlined diffs
+-- contain valid trailing whitespace.
+vim.g.better_whitespace_filetypes_blacklist = { 'mail', 'diff' }
+
+-------------
+-- Misc stuff
+-------------
+
+-- Highlight the last column a character may occupy on a line.
+-- Default is 79, but may be overridden for other file types.
+vim.o.textwidth=79
+vim.o.colorcolumn="-0"
+
+-- Space bar in normal mode toggles paste mode.
+vim.api.nvim_set_keymap('n', '<Space>', ':set paste!<CR>', { noremap = true, silent = true })
+
+-- Spelling.
+vim.o.spelllang = 'en_gb'
+vim.api.nvim_set_keymap('n', '<C-s>', ':set spell!<CR>', { noremap = true, silent = true })
+
+-- Load local (non-version-controlled) settings.
+dofile(config_dir .. "/local.lua")
