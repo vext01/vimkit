@@ -27,6 +27,8 @@ require('packer').startup(function()
   use 'jamessan/vim-gnupg' -- GPG support
   use 'ray-x/lsp_signature.nvim' -- Show func sigs
   use 'ntpeters/vim-better-whitespace' -- Highlight trailing whitespace
+  use 'farmergreg/vim-lastplace' -- Open files at the last edited place.
+  use 'lfv89/vim-interestingwords' -- Highlight interesting words.
 
   -- Completion
   use 'hrsh7th/nvim-cmp'
@@ -251,8 +253,14 @@ vim.o.colorcolumn="-0"
 -- Space bar in normal mode toggles paste mode.
 vim.api.nvim_set_keymap('n', '<Space>', ':set paste!<CR>', { noremap = true, silent = true })
 
--- Enable mouse support
-vim.o.mouse='a'
+-- Insert a C program.
+vim.api.nvim_set_keymap('n', ';c', ':set paste<cr>i#include <stdio.h>\n#include <stdlib.h>\n\nint\nmain(int argc, char **argv)\n{\n\treturn (EXIT_SUCCESS);\n}<esc>:set nopaste<cr>', { noremap = true, silent = true})
+
+vim.o.mouse='a' -- Enable mouse support
+vim.o.number = true -- Line number gutter
+vim.o.clipboard = 'unnamedplus' -- sync with system clipboard
+vim.o.undofile = true -- per-file undo
+vim.o.inccommand = 'nosplit' -- live substitutions
 
 -- Spelling.
 vim.o.spelllang = 'en_gb'
