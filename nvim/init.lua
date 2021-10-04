@@ -33,6 +33,7 @@ require('packer').startup(function()
   use 'airblade/vim-gitgutter' -- Diff symbols in gutter
   use 'folke/which-key.nvim' -- Nano mode :P
   use 'mhinz/vim-grepper' -- grep tool
+  use 'editorconfig/editorconfig-vim' -- configure indent per-project
 
   -- Completion
   use 'hrsh7th/nvim-cmp'
@@ -284,6 +285,12 @@ vim.o.clipboard = 'unnamedplus' -- sync with system clipboard
 vim.o.undofile = true -- per-file undo
 vim.o.inccommand = 'nosplit' -- live substitutions
 vim.o.updatetime = 1000 -- update stuff (like the git gutter) quicker
+
+-- Default indents (editorconfig can override)
+vim.o.tabstop = 4
+vim.o.expandtab = true
+vim.o.shiftwidth = 4
+
 
 -- Spelling.
 vim.o.spelllang = 'en_gb'
