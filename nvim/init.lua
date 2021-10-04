@@ -45,10 +45,7 @@ require('packer').startup(function()
 
   -- Colour schemes
   use 'sainnhe/gruvbox-material'
-  use 'morhetz/gruvbox'
   use 'robertmeta/nofrils'
-
-  --use 'altercation/vim-colors-solarized'
 end)
 
 -- gruvbox
@@ -56,7 +53,6 @@ end)
 vim.o.termguicolors = true
 vim.g.gruvbox_material_palette = 'mix'
 vim.cmd [[colorscheme gruvbox-material]]
---vim.cmd [[colorscheme nofrils-acme]]
 
 ------
 -- LSP
@@ -254,6 +250,9 @@ vim.o.colorcolumn="-0"
 
 -- Space bar in normal mode toggles paste mode.
 vim.api.nvim_set_keymap('n', '<Space>', ':set paste!<CR>', { noremap = true, silent = true })
+
+-- Enable mouse support
+vim.o.mouse='a'
 
 -- Spelling.
 vim.o.spelllang = 'en_gb'
