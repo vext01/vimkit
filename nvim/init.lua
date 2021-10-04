@@ -31,6 +31,8 @@ require('packer').startup(function()
   use 'lfv89/vim-interestingwords' -- Highlight interesting words
   use 'tomtom/tcomment_vim' -- Comment lines easily
   use 'airblade/vim-gitgutter' -- Diff symbols in gutter
+  use 'folke/which-key.nvim' -- Nano mode :P
+  use 'mhinz/vim-grepper' -- grep tool
 
   -- Completion
   use 'hrsh7th/nvim-cmp'
@@ -246,6 +248,20 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 -- Is annoying when writing mail because the mail signature and inlined diffs
 -- contain valid trailing whitespace.
 vim.g.better_whitespace_filetypes_blacklist = { 'mail', 'diff' }
+
+------------
+-- which-key
+------------
+
+require("which-key").setup()
+
+----------
+-- grepper
+----------
+
+vim.g['grepper'] = {tools = { 'rg', 'ag', 'grep' }}
+vim.api.nvim_set_keymap('n', '<leader>g', ':Grepper<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'gs', ':Grepper -cword -noprompt<CR>', { noremap = true, silent = true })
 
 -------------
 -- Misc stuff
