@@ -118,11 +118,13 @@ local on_attach = function(_, bufnr)
   }, bufnr)
 end
 
-local setup = {
-  on_attach = on_attach,
-  capabilities = capabilities
-}
-nvim_lsp['rust_analyzer'].setup(setup)
+local servers = { 'rust_analyzer', 'clangd' }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+end
 
 ------------
 -- telescope
