@@ -20,7 +20,6 @@ vim.api.nvim_exec(
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
-  use 'rust-lang/rust.vim' -- General Rust stuff
   use 'itchyny/lightline.vim' -- Status bar
   use 'neovim/nvim-lspconfig' -- LSP config helpers
   use 'christoomey/vim-tmux-navigator' -- tmux integration
@@ -34,6 +33,13 @@ require('packer').startup(function()
   use 'folke/which-key.nvim' -- Nano mode :P
   use 'mhinz/vim-grepper' -- grep tool
   use 'editorconfig/editorconfig-vim' -- configure indent per-project
+  use {'phaazon/hop.nvim', as = 'hop'} -- improved navigation
+  use 'stevearc/aerial.nvim' -- class/function browser
+  use 'folke/trouble.nvim' -- Diagnostic list
+
+  -- Programming langauges
+  use 'rhysd/vim-llvm'
+  use 'rust-lang/rust.vim'
 
   -- Completion
   use 'hrsh7th/nvim-cmp'
@@ -93,7 +99,9 @@ function _G.prev_diagnostic()
   end
 end
 
-local on_attach = function(_, bufnr)
+local aerial = require'aerial'
+vim.g.aerial = { default_direction = 'left' }
+local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   local opts = { noremap = true, silent = true }
@@ -106,8 +114,8 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gl', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gs', [[:split<CR><cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
+  --vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gs', [[:split<CR><cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], opts)
+  --vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
 
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
@@ -119,6 +127,17 @@ local on_attach = function(_, bufnr)
     transparency = 25,
     handler_opts = { border = "single" }
   }, bufnr)
+
+  aerial.on_attach(client)
+  -- Aerial does not set any mappings by default, so you'll want to set some up
+  -- Toggle the aerial window with <leader>a
+  vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
+  -- Jump forwards/backwards with '{' and '}'
+  vim.api.nvim_buf_set_keymap(0, 'n', '{', '<cmd>AerialPrev<CR>', {})
+  vim.api.nvim_buf_set_keymap(0, 'n', '}', '<cmd>AerialNext<CR>', {})
+  -- Jump up the tree with '[[' or ']]'
+  vim.api.nvim_buf_set_keymap(0, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
+  vim.api.nvim_buf_set_keymap(0, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
 end
 
 local servers = { 'rust_analyzer', 'clangd' }
@@ -250,7 +269,7 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 -- contain valid trailing whitespace.
 vim.g.better_whitespace_filetypes_blacklist = { 'mail', 'diff' }
 
-------------
+-----------
 -- which-key
 ------------
 
@@ -263,6 +282,33 @@ require("which-key").setup()
 vim.g['grepper'] = {tools = { 'rg', 'ag', 'grep' }}
 vim.api.nvim_set_keymap('n', '<leader>g', ':Grepper<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'gs', ':Grepper -cword -noprompt<CR>', { noremap = true, silent = true })
+
+------
+-- hop
+------
+
+hop = require'hop'.setup{}
+vim.api.nvim_set_keymap('n', 'gw', "<cmd>lua require'hop'.hint_words()<cr>", {})
+vim.api.nvim_set_keymap('n', 'g^', "<cmd>lua require'hop'.hint_lines()<cr>", {})
+
+----------
+-- trouble
+----------
+
+-- https://github.com/folke/trouble.nvim/issues/96
+require("trouble").setup {
+  fold_open = "v",
+  fold_closed = ">",
+  indent_lines = false,
+  signs = {
+      error = "error",
+      warning = "warn",
+      hint = "hint",
+      information = "info"
+  },
+  icons = false,
+  use_lsp_diagnostic_signs = false
+}
 
 -------------
 -- Misc stuff
@@ -291,6 +337,10 @@ vim.o.tabstop = 4
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
 
+-- Smart case search
+
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
 -- Spelling.
 vim.o.spelllang = 'en_gb'
