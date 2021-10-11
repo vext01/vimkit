@@ -36,7 +36,6 @@ require('packer').startup(function()
   use {'phaazon/hop.nvim', as = 'hop'} -- improved navigation
   use 'stevearc/aerial.nvim' -- class/function browser
   use 'folke/trouble.nvim' -- Diagnostic list
-  use 'psliwka/vim-smoothie' -- Smooth scrolling
   --use 'karb94/neoscroll.nvim' -- Smooth scrolling
   use 'jbyuki/venn.nvim' -- ASCII art drawings
   use 'dstein64/nvim-scrollview' -- Display a scrollbar
