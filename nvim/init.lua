@@ -68,8 +68,12 @@ end)
 -- gruvbox
 ----------
 
-vim.o.termguicolors = true
+-- under mosh only, sigh...
+-- https://github.com/mobile-shell/mosh
+vim.o.termguicolors = false
+
 vim.g.gruvbox_material_palette = 'mix'
+dofile(config_dir .. "/bg.lua")
 vim.cmd [[colorscheme gruvbox-material]]
 
 ------
