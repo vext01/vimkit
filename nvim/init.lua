@@ -30,12 +30,11 @@ require('packer').startup(function()
   use 'lfv89/vim-interestingwords' -- Highlight interesting words
   use 'tomtom/tcomment_vim' -- Comment lines easily
   use 'airblade/vim-gitgutter' -- Diff symbols in gutter
-  use 'folke/which-key.nvim' -- Nano mode :P
   use 'mhinz/vim-grepper' -- grep tool
   use 'editorconfig/editorconfig-vim' -- configure indent per-project
   use {'phaazon/hop.nvim', as = 'hop'} -- improved navigation
   use 'stevearc/aerial.nvim' -- class/function browser
-  use 'folke/trouble.nvim' -- Diagnostic list
+  --use 'folke/trouble.nvim' -- Diagnostic list
   --use 'karb94/neoscroll.nvim' -- Smooth scrolling
   use 'jbyuki/venn.nvim' -- ASCII art drawings
   use 'dstein64/nvim-scrollview' -- Display a scrollbar
@@ -276,12 +275,6 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 -- contain valid trailing whitespace.
 vim.g.better_whitespace_filetypes_blacklist = { 'mail', 'diff' }
 
------------
--- which-key
-------------
-
-require("which-key").setup()
-
 ----------
 -- grepper
 ----------
@@ -303,19 +296,19 @@ vim.api.nvim_set_keymap('n', 'g^', "<cmd>lua require'hop'.hint_lines()<cr>", {})
 ----------
 
 -- https://github.com/folke/trouble.nvim/issues/96
-require("trouble").setup {
-  fold_open = "v",
-  fold_closed = ">",
-  indent_lines = false,
-  signs = {
-      error = "error",
-      warning = "warn",
-      hint = "hint",
-      information = "info"
-  },
-  icons = false,
-  use_lsp_diagnostic_signs = false
-}
+--require("trouble").setup {
+--   fold_open = "v",
+--   fold_closed = ">",
+--   indent_lines = false,
+--   signs = {
+--       error = "error",
+--       warning = "warn",
+--       hint = "hint",
+--       information = "info"
+--   },
+--   icons = false,
+--   use_lsp_diagnostic_signs = false
+-- }
 
 -------
 -- venn
@@ -393,6 +386,16 @@ vim.o.smartcase = true
 -- Spelling.
 vim.o.spelllang = 'en_gb'
 vim.api.nvim_set_keymap('n', '<C-s>', ':set spell!<CR>', { noremap = true, silent = true })
+
+-- Strip trailing whitespace
+
+vim.api.nvim_set_keymap('n', ';s', ':%s/\\s\\+$//e<CR>',
+    { noremap = true, silent = true })
+
+-- Visual mode, cat selected text (for copying from a remote host)
+
+vim.api.nvim_set_keymap('v', ';y', ':w ! /bin/sh -c cat<CR>',
+    { noremap = true, silent = true })
 
 -- Load local (non-version-controlled) settings.
 dofile(config_dir .. "/local.lua")
