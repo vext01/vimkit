@@ -106,7 +106,7 @@ function _G.prev_diagnostic()
 end
 
 local aerial = require'aerial'
-vim.g.aerial = { default_direction = 'left' }
+aerial.setup({ default_direction = 'left' })
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
