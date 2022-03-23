@@ -69,7 +69,7 @@ end)
 
 -- under mosh only, sigh...
 -- https://github.com/mobile-shell/mosh
-vim.o.termguicolors = false
+vim.o.termguicolors = true
 
 vim.g.gruvbox_material_palette = 'mix'
 dofile(config_dir .. "/bg.lua")
@@ -148,10 +148,12 @@ end
 
 local servers = { 'rust_analyzer', 'clangd' }
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
+  if vim.fn.executable(lsp) == 1 then
+    nvim_lsp[lsp].setup {
+      on_attach = on_attach,
+      capabilities = capabilities,
   }
+  end
 end
 
 ------------
