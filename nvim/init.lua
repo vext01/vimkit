@@ -31,6 +31,7 @@ require('packer').startup(function()
   use 'tomtom/tcomment_vim' -- Comment lines easily
   use 'airblade/vim-gitgutter' -- Diff symbols in gutter
   use 'mhinz/vim-grepper' -- grep tool
+  use 'dyng/ctrlsf.vim' -- search/replace
   use 'editorconfig/editorconfig-vim' -- configure indent per-project
   use {'phaazon/hop.nvim', as = 'hop'} -- improved navigation
   use 'stevearc/aerial.nvim' -- class/function browser
@@ -90,18 +91,18 @@ function _G.all_diagnostics()
 end
 
 function _G.next_diagnostic()
-  if vim.lsp.diagnostic.get_count(0, 'Error') > 0 then
-    vim.lsp.diagnostic.goto_next({severity = 'Error'})
+  if next(vim.diagnostic.get(0, {severity = 'Error'})) ~= nil then
+    vim.diagnostic.goto_next({severity = 'Error'})
   else
-    vim.lsp.diagnostic.goto_next()
+    vim.diagnostic.goto_next()
   end
 end
 
 function _G.prev_diagnostic()
-  if vim.lsp.diagnostic.get_count(0, 'Error') > 0 then
-    vim.lsp.diagnostic.goto_prev({severity = 'Error'})
+  if next(vim.diagnostic.get(0, {severity = 'Error'})) ~= nil then
+    vim.diagnostic.goto_prev({severity = 'Error'})
   else
-    vim.lsp.diagnostic.goto_prev()
+    vim.diagnostic.goto_prev()
   end
 end
 
