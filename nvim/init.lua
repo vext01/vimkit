@@ -147,14 +147,18 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(0, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
 end
 
-local servers = { 'rust_analyzer', 'clangd' }
-for _, lsp in ipairs(servers) do
-  if vim.fn.executable(lsp) == 1 then
-    nvim_lsp[lsp].setup {
-      on_attach = on_attach,
-      capabilities = capabilities,
-  }
-  end
+if vim.fn.executable('rust-analyzer') then
+    require'lspconfig'.rust_analyzer.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+    }
+end
+
+if vim.fn.executable('clangd') then
+    require'lspconfig'.clangd.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+    }
 end
 
 ------------
