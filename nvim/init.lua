@@ -134,18 +134,15 @@ local on_attach = function(client, bufnr)
     transparency = 25,
     handler_opts = { border = "single" }
   }, bufnr)
-
-  aerial.on_attach(client)
-  -- Aerial does not set any mappings by default, so you'll want to set some up
-  -- Toggle the aerial window with <leader>a
-  vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>AerialToggle!<CR>', {})
-  -- Jump forwards/backwards with '{' and '}'
-  vim.api.nvim_buf_set_keymap(0, 'n', '{', '<cmd>AerialPrev<CR>', {})
-  vim.api.nvim_buf_set_keymap(0, 'n', '}', '<cmd>AerialNext<CR>', {})
-  -- Jump up the tree with '[[' or ']]'
-  vim.api.nvim_buf_set_keymap(0, 'n', '[[', '<cmd>AerialPrevUp<CR>', {})
-  vim.api.nvim_buf_set_keymap(0, 'n', ']]', '<cmd>AerialNextUp<CR>', {})
 end
+
+require'cmp'.setup {
+  sources = {
+    { name = 'nvim_lsp' }
+  }
+}
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 if vim.fn.executable('rust-analyzer') then
     require'lspconfig'.rust_analyzer.setup{
@@ -266,13 +263,6 @@ cmp.setup {
   },
 }
 vim.api.nvim_set_keymap('', '<C-space>', 'lua cmp.complete()', {silent=true,noremap=true})
-
----------------
--- cmp_nvim_lsp
----------------
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 ------------------------
 -- vim-better-whitespace
