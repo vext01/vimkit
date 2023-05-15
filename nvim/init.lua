@@ -31,6 +31,7 @@ require('packer').startup(function()
   use 'tomtom/tcomment_vim' -- Comment lines easily
   use 'airblade/vim-gitgutter' -- Diff symbols in gutter
   use 'mhinz/vim-grepper' -- grep tool
+  --use 'duane9/nvim-rg'
   use 'dyng/ctrlsf.vim' -- search/replace
   use 'editorconfig/editorconfig-vim' -- configure indent per-project
   use {'phaazon/hop.nvim', as = 'hop'} -- improved navigation
@@ -39,6 +40,10 @@ require('packer').startup(function()
   --use 'karb94/neoscroll.nvim' -- Smooth scrolling
   use 'jbyuki/venn.nvim' -- ASCII art drawings
   use 'dstein64/nvim-scrollview' -- Display a scrollbar
+
+  use 'nvim-treesitter/nvim-treesitter' -- Incremental parsing
+  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Extra stuff for treesitter
+  use 'romgrk/nvim-treesitter-context' -- Auto-collapse code as you scroll
 
   -- Programming langauges
   use 'rhysd/vim-llvm'
@@ -70,11 +75,36 @@ end)
 
 -- under mosh only, sigh...
 -- https://github.com/mobile-shell/mosh
-vim.o.termguicolors = true
+--vim.o.termguicolors = true
 
 vim.g.gruvbox_material_palette = 'mix'
 dofile(config_dir .. "/bg.lua")
 vim.cmd [[colorscheme gruvbox-material]]
+
+-------------
+-- treesitter
+-------------
+
+require('nvim-treesitter.configs').setup {
+    ensure_installed = { 'c', 'cpp', 'css', 'toml', 'python', 'rust' },
+    highlight = {
+        enable = true,
+        disable = {'latex'},
+        -- Currently we have to add Vim's syntax highlighting to avoid every
+        -- keyword being highlighted as a spelling error...
+        additional_vim_regex_highlighting = true,
+    },
+    incremental_selection = { enable = true },
+    -- Enabling treesitter's indentation currently causes autoindenting to become very wonky.
+    -- indent = { enable = true },
+    textobjects = { enable = true },
+}
+
+
+-- treesitter-context
+require('treesitter-context').setup {
+    enable = true,
+}
 
 ------
 -- LSP
@@ -278,7 +308,16 @@ vim.g.better_whitespace_filetypes_blacklist = { 'mail', 'diff' }
 
 vim.g['grepper'] = {tools = { 'rg', 'ag', 'grep' }}
 vim.api.nvim_set_keymap('n', '<leader>g', ':Grepper<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gs', ':Grepper -cword -noprompt<CR>', { noremap = true, silent = true })
+-- https://github.com/mhinz/vim-grepper/issues/257
+-- vim.api.nvim_set_keymap('n', 'gs', ':Grepper -cword -noprompt<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'gs', ':execute ":Grepper -noprompt -query " .. shellescape(expand("<cword>"))<cr>', { noremap = true, silent = true })
+
+----------
+-- nvim-rg
+----------
+
+--vim.api.nvim_set_keymap('n', 'gs', ':Rg <cword><CR>', { noremap = true, silent = true })
+--vim.api.nvim_set_keymap('n', '<leader>g', ':Rg<CR>', { noremap = true, silent = true })
 
 ------
 -- hop
