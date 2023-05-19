@@ -62,7 +62,7 @@ require('packer').startup(function()
 
   -- Fuzzy finder
   use { 'nvim-telescope/telescope.nvim', requires={ 'nvim-lua/plenary.nvim' } }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', requires={ 'nvim-telescope/telescope.nvim' }, run='gmake' }
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
   -- Colour schemes
   use 'sainnhe/gruvbox-material'
