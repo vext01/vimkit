@@ -57,7 +57,7 @@ require('packer').startup(function()
 
   -- Fuzzy finder
   use { 'nvim-telescope/telescope.nvim', requires={ 'nvim-lua/plenary.nvim' } }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', requires={ 'nvim-telescope/telescope.nvim' }, run='gmake' }
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
   -- Colour schemes
   use 'sainnhe/gruvbox-material'
@@ -70,7 +70,7 @@ end)
 
 -- under mosh only, sigh...
 -- https://github.com/mobile-shell/mosh
-vim.o.termguicolors = true
+--vim.o.termguicolors = true
 
 vim.g.gruvbox_material_palette = 'mix'
 dofile(config_dir .. "/bg.lua")
