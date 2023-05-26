@@ -31,13 +31,10 @@ require('packer').startup(function()
   use 'tomtom/tcomment_vim' -- Comment lines easily
   use 'airblade/vim-gitgutter' -- Diff symbols in gutter
   use 'mhinz/vim-grepper' -- grep tool
-  --use 'duane9/nvim-rg'
   use 'dyng/ctrlsf.vim' -- search/replace
   use 'editorconfig/editorconfig-vim' -- configure indent per-project
   use {'phaazon/hop.nvim', as = 'hop'} -- improved navigation
   use 'stevearc/aerial.nvim' -- class/function browser
-  --use 'folke/trouble.nvim' -- Diagnostic list
-  --use 'karb94/neoscroll.nvim' -- Smooth scrolling
   use 'jbyuki/venn.nvim' -- ASCII art drawings
   use 'dstein64/nvim-scrollview' -- Display a scrollbar
 
@@ -72,10 +69,6 @@ end)
 ----------
 -- gruvbox
 ----------
-
--- under mosh only, sigh...
--- https://github.com/mobile-shell/mosh
---vim.o.termguicolors = true
 
 vim.g.gruvbox_material_palette = 'mix'
 dofile(config_dir .. "/bg.lua")
@@ -312,13 +305,6 @@ vim.api.nvim_set_keymap('n', '<leader>g', ':Grepper<CR>', { noremap = true, sile
 -- vim.api.nvim_set_keymap('n', 'gs', ':Grepper -cword -noprompt<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'gs', ':execute ":Grepper -noprompt -query " .. shellescape(expand("<cword>"))<cr>', { noremap = true, silent = true })
 
-----------
--- nvim-rg
-----------
-
---vim.api.nvim_set_keymap('n', 'gs', ':Rg <cword><CR>', { noremap = true, silent = true })
---vim.api.nvim_set_keymap('n', '<leader>g', ':Rg<CR>', { noremap = true, silent = true })
-
 ------
 -- hop
 ------
@@ -326,25 +312,6 @@ vim.api.nvim_set_keymap('n', 'gs', ':execute ":Grepper -noprompt -query " .. she
 hop = require'hop'.setup{}
 vim.api.nvim_set_keymap('n', 'gw', "<cmd>lua require'hop'.hint_words()<cr>", {})
 vim.api.nvim_set_keymap('n', 'g^', "<cmd>lua require'hop'.hint_lines()<cr>", {})
-
-----------
--- trouble
-----------
-
--- https://github.com/folke/trouble.nvim/issues/96
---require("trouble").setup {
---   fold_open = "v",
---   fold_closed = ">",
---   indent_lines = false,
---   signs = {
---       error = "error",
---       warning = "warn",
---       hint = "hint",
---       information = "info"
---   },
---   icons = false,
---   use_lsp_diagnostic_signs = false
--- }
 
 -------
 -- venn
@@ -377,15 +344,6 @@ vim.api.nvim_set_keymap('n', '<leader>v', ":lua toggle_venn()<cr>", { noremap = 
 -------------
 
 vim.cmd[[hi link ScrollView Search]]
-
-------------
--- neoscroll
-------------
-
--- https://github.com/karb94/neoscroll.nvim/issues/23#issuecomment-937840793
---require('neoscroll').setup({
---    easing_function = "sine"
---})
 
 -------------
 -- Misc stuff
