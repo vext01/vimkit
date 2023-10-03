@@ -27,7 +27,7 @@ local plugins = {
   'mhinz/vim-grepper', -- grep tool
   'dyng/ctrlsf.vim', -- search/replace
   'editorconfig/editorconfig-vim', -- configure indent per-project
-  {'phaazon/hop.nvim', as = 'hop'}, -- improved navigation
+  'phaazon/hop.nvim', -- improved navigation
   'stevearc/aerial.nvim', -- class/function browser
   'jbyuki/venn.nvim', -- ASCII art drawings
   'dstein64/nvim-scrollview', -- Display a scrollbar
@@ -52,8 +52,7 @@ local plugins = {
   'saadparwaiz1/cmp_luasnip',
 
   -- Fuzzy finder
-  'nvim-lua/plenary.nvim', -- needed for telescope.
-  { 'nvim-telescope/telescope.nvim', requires={ 'nvim-lua/plenary.nvim' } },
+  { 'nvim-telescope/telescope.nvim',  dependencies={ 'nvim-lua/plenary.nvim' } },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 
   -- Colour schemes
