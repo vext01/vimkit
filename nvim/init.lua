@@ -1,70 +1,88 @@
--- On the first run, do `:PackerInstall` and restart.
+-- Bootstrap lazy pkg manager.
 
-local config_dir = os.getenv("HOME") .. '/.config/nvim'
-
-local packer_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-if vim.fn.empty(vim.fn.glob(packer_path)) > 0 then
-  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. packer_path)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-vim.api.nvim_exec(
-  [[
-  augroup Packer
-    autocmd!
-    autocmd BufWritePost init.lua PackerCompile
-  augroup end
-]],
-  false
-)
+local plugins = {
+  'itchyny/lightline.vim', -- Status bar
+  'neovim/nvim-lspconfig', -- LSP config helpers
+  'christoomey/vim-tmux-navigator', -- tmux integration
+  'jamessan/vim-gnupg', -- GPG support
+  'ray-x/lsp_signature.nvim', -- Show func sigs
+  'ntpeters/vim-better-whitespace', -- Highlight trailing whitespace
+  'farmergreg/vim-lastplace', -- Open files at the last edited place
+  'lfv89/vim-interestingwords', -- Highlight interesting words
+  'tomtom/tcomment_vim', -- Comment lines easily
+  'airblade/vim-gitgutter', -- Diff symbols in gutter
+  'mhinz/vim-grepper', -- grep tool
+  'dyng/ctrlsf.vim', -- search/replace
+  'editorconfig/editorconfig-vim', -- configure indent per-project
+  {'phaazon/hop.nvim', as = 'hop'}, -- improved navigation
+  'stevearc/aerial.nvim', -- class/function browser
+  'jbyuki/venn.nvim', -- ASCII art drawings
+  'dstein64/nvim-scrollview', -- Display a scrollbar
 
-local use = require('packer').use
-require('packer').startup(function()
-  use 'wbthomason/packer.nvim' -- Package manager
-  use 'itchyny/lightline.vim' -- Status bar
-  use 'neovim/nvim-lspconfig' -- LSP config helpers
-  use 'christoomey/vim-tmux-navigator' -- tmux integration
-  use 'jamessan/vim-gnupg' -- GPG support
-  use 'ray-x/lsp_signature.nvim' -- Show func sigs
-  use 'ntpeters/vim-better-whitespace' -- Highlight trailing whitespace
-  use 'farmergreg/vim-lastplace' -- Open files at the last edited place
-  use 'lfv89/vim-interestingwords' -- Highlight interesting words
-  use 'tomtom/tcomment_vim' -- Comment lines easily
-  use 'airblade/vim-gitgutter' -- Diff symbols in gutter
-  use 'mhinz/vim-grepper' -- grep tool
-  use 'dyng/ctrlsf.vim' -- search/replace
-  use 'editorconfig/editorconfig-vim' -- configure indent per-project
-  use {'phaazon/hop.nvim', as = 'hop'} -- improved navigation
-  use 'stevearc/aerial.nvim' -- class/function browser
-  use 'jbyuki/venn.nvim' -- ASCII art drawings
-  use 'dstein64/nvim-scrollview' -- Display a scrollbar
-
-  use 'nvim-treesitter/nvim-treesitter' -- Incremental parsing
-  use 'nvim-treesitter/nvim-treesitter-textobjects' -- Extra stuff for treesitter
-  use 'romgrk/nvim-treesitter-context' -- Auto-collapse code as you scroll
+  'nvim-treesitter/nvim-treesitter', -- Incremental parsing
+  'nvim-treesitter/nvim-treesitter-textobjects', -- Extra stuff for treesitter
+  'romgrk/nvim-treesitter-context', -- Auto-collapse code as you scroll
 
   -- Programming langauges
-  use 'rhysd/vim-llvm'
-  use 'rust-lang/rust.vim'
+  'rhysd/vim-llvm',
+  'rust-lang/rust.vim',
 
   -- Completion
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp' -- LSP completion.
-  use 'hrsh7th/cmp-path' -- Add completion of filesystem paths
-  use 'hrsh7th/cmp-buffer' -- Add completion of text in the current buffer
+  'hrsh7th/nvim-cmp',
+  'hrsh7th/cmp-nvim-lsp', -- LSP completion.
+  'hrsh7th/cmp-path', -- Add completion of filesystem paths
+  'hrsh7th/cmp-buffer', -- Add completion of text in the current buffer
 
   -- Snippets
-  use 'L3MON4D3/LuaSnip'
-  use 'SirVer/ultisnips'
-  use 'saadparwaiz1/cmp_luasnip'
+  'L3MON4D3/LuaSnip',
+  -- 'SirVer/ultisnips',
+  'saadparwaiz1/cmp_luasnip',
 
   -- Fuzzy finder
-  use { 'nvim-telescope/telescope.nvim', requires={ 'nvim-lua/plenary.nvim' } }
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+  'nvim-lua/plenary.nvim', -- needed for telescope.
+  { 'nvim-telescope/telescope.nvim', requires={ 'nvim-lua/plenary.nvim' } },
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 
   -- Colour schemes
-  use 'sainnhe/gruvbox-material'
-  use 'robertmeta/nofrils'
-end)
+  'sainnhe/gruvbox-material',
+  'robertmeta/nofrils'
+}
+
+local lazy_opts = {
+  ui = {
+    icons = {
+      cmd = "⌘",
+      config = "🛠",
+      event = "📅",
+      ft = "📂",
+      init = "⚙",
+      keys = "🗝",
+      plugin = "🔌",
+      runtime = "💻",
+      source = "📄",
+      start = "🚀",
+      task = "📌",
+      lazy = "💤 ",
+    },
+  },
+}
+
+require("lazy").setup(plugins, lazy_opts)
+
+local config_dir = os.getenv("HOME") .. '/.config/nvim'
 
 ----------
 -- gruvbox
