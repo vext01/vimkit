@@ -393,3 +393,8 @@ vim.api.nvim_set_keymap('v', ';y', ':w ! /bin/sh -c cat<CR>',
 
 -- Load local (non-version-controlled) settings.
 dofile(config_dir .. "/local.lua")
+
+-- CPU constantly spinning with rust-analyzer.
+-- https://github.com/neovim/neovim/issues/23291
+-- Disable the watcher for now...
+require('vim.lsp._watchfiles')._watchfunc = function(_, _, _) return true end
