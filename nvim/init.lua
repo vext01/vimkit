@@ -14,7 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-  'itchyny/lightline.vim', -- Status bar
+  'nvim-lualine/lualine.nvim', -- Status bar
   'neovim/nvim-lspconfig', -- LSP config helpers
   'christoomey/vim-tmux-navigator', -- tmux integration
   'jamessan/vim-gnupg', -- GPG support
@@ -90,6 +90,14 @@ local config_dir = os.getenv("HOME") .. '/.config/nvim'
 vim.g.gruvbox_material_palette = 'mix'
 dofile(config_dir .. "/bg.lua")
 vim.cmd [[colorscheme gruvbox-material]]
+
+----------
+-- lualine
+----------
+
+require('lualine').setup {
+    options = { theme = 'onedark', icons_enabled = false }
+}
 
 -------------
 -- treesitter
