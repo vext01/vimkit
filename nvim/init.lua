@@ -122,6 +122,7 @@ require('nvim-treesitter.configs').setup {
 -- treesitter-context
 require('treesitter-context').setup {
     enable = true,
+    max_lines = 2,
 }
 
 ------
