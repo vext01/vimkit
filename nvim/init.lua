@@ -47,9 +47,8 @@ local plugins = {
   'hrsh7th/cmp-buffer', -- Add completion of text in the current buffer
 
   -- Snippets
-  'L3MON4D3/LuaSnip',
-  -- 'SirVer/ultisnips',
-  'saadparwaiz1/cmp_luasnip',
+  'hrsh7th/cmp-vsnip',
+  'hrsh7th/vim-vsnip',
 
   -- Fuzzy finder
   { 'nvim-telescope/telescope.nvim',  dependencies={ 'nvim-lua/plenary.nvim' } },
@@ -193,6 +192,9 @@ require'cmp'.setup {
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+-- disable snippets in code completion.
+capabilities.textDocument.completion.completionItem.snippetSupport = false
+
 if vim.fn.executable('rust-analyzer') then
     require'lspconfig'.rust_analyzer.setup{
           on_attach = on_attach,
@@ -261,57 +263,30 @@ vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin'
 -----------
 -- nvim-cmp
 -----------
+---
 
 local cmp = require 'cmp'
-local luasnip = require 'luasnip'
-require("luasnip.loaders.from_vscode").load()
-cmp.setup {
-  completion = {
-    autocomplete = false
-  },
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
-  },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-      elseif luasnip.expand_or_jumpable() then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
-      else
-        fallback()
-      end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if vim.fn.pumvisible() == 1 then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-      elseif luasnip.jumpable(-1) then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
-      else
-        fallback()
-      end
-    end,
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'path' },
-    { name = 'buffer' }
-  },
-}
-vim.api.nvim_set_keymap('', '<C-space>', 'lua cmp.complete()', {silent=true,noremap=true})
+cmp.setup({
+snippet = {
+  -- REQUIRED - you must specify a snippet engine
+  expand = function(args)
+	vim.fn["vsnip#anonymous"](args.body)
+  end,
+},
+mapping = cmp.mapping.preset.insert({
+  ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+  ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  ['<C-Space>'] = cmp.mapping.complete(),
+  ['<C-e>'] = cmp.mapping.abort(),
+  ['<CR>'] = cmp.mapping.confirm({ select = true }),
+}),
+sources = cmp.config.sources({
+  { name = 'nvim_lsp' },
+  { name = 'vsnip' },
+}, {
+  { name = 'buffer' },
+})
+})
 
 ------------------------
 -- vim-better-whitespace
