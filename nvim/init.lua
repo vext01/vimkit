@@ -31,6 +31,7 @@ local plugins = {
   'stevearc/aerial.nvim', -- class/function browser
   'jbyuki/venn.nvim', -- ASCII art drawings
   'dstein64/nvim-scrollview', -- Display a scrollbar
+  'tpope/vim-surround', -- add/edit surrounding characters
 
   'nvim-treesitter/nvim-treesitter', -- Incremental parsing
   'nvim-treesitter/nvim-treesitter-textobjects', -- Extra stuff for treesitter
@@ -267,6 +268,9 @@ vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin'
 
 local cmp = require 'cmp'
 cmp.setup({
+completion = {
+    autocomplete = false
+},
 snippet = {
   -- REQUIRED - you must specify a snippet engine
   expand = function(args)
