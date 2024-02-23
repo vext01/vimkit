@@ -157,7 +157,9 @@ end
 
 local aerial = require'aerial'
 aerial.setup({ default_direction = 'left' })
+
 local on_attach = function(client, bufnr)
+  client.server_capabilities.documentFormattingProvider = true
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   local opts = { noremap = true, silent = true }
@@ -184,6 +186,8 @@ local on_attach = function(client, bufnr)
     handler_opts = { border = "single" }
   }, bufnr)
 end
+
+vim.api.nvim_create_autocmd("BufWritePre", { callback = function() vim.lsp.buf.format() end })
 
 require'cmp'.setup {
   sources = {
