@@ -407,3 +407,10 @@ dofile(config_dir .. "/local.lua")
 -- https://github.com/neovim/neovim/issues/23291
 -- Disable the watcher for now...
 require('vim.lsp._watchfiles')._watchfunc = function(_, _, _) return true end
+
+-- reread bg.lua on SIGUSR1
+vim.api.nvim_create_autocmd("Signal", { callback = function() vim.lsp.buf.format() end })
+vim.api.nvim_create_autocmd("Signal", {
+	pattern = { "SIGUSR1" },
+	callback = function() dofile(config_dir .. "/bg.lua") end,
+})
