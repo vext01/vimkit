@@ -37,6 +37,8 @@ local plugins = {
   'nvim-treesitter/nvim-treesitter-textobjects', -- Extra stuff for treesitter
   'romgrk/nvim-treesitter-context', -- Auto-collapse code as you scroll
 
+  'j-hui/fidget.nvim', -- status notifier for LSP
+
   -- Programming langauges
   'rhysd/vim-llvm',
   'rust-lang/rust.vim',
@@ -211,6 +213,33 @@ if vim.fn.executable('clangd') then
           capabilities = capabilities,
     }
 end
+
+if vim.fn.executable('pylsp') then
+    require'lspconfig'.pylsp.setup{
+        settings = {
+            pylsp = {
+                plugins = {
+                    pycodestyle = {
+                        ignore = {'W391'},
+                        maxLineLength = 100
+                    }
+                }
+            }
+        }
+    }
+end
+
+---------
+-- fidget
+---------
+
+require('fidget').setup{
+    progress = {
+        display = {
+            render_limit = 3 -- max 3 lines
+        }
+    }
+}
 
 ------------
 -- telescope
