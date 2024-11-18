@@ -215,6 +215,15 @@ if vim.fn.executable('clangd') == 1 then
     }
 end
 
+local lsputil = require('lspconfig.util')
+if vim.fn.executable('lua-language-server') == 1 then
+    require'lspconfig'.lua_ls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+	  root_dir = lsputil.find_git_ancestor,
+    }
+end
+
 if vim.fn.executable('pylsp') == 1 then
     require'lspconfig'.pylsp.setup{
         settings = {
