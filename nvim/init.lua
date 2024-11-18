@@ -32,6 +32,7 @@ local plugins = {
   'jbyuki/venn.nvim', -- ASCII art drawings
   'dstein64/nvim-scrollview', -- Display a scrollbar
   'tpope/vim-surround', -- add/edit surrounding characters
+  'chrisbra/unicode.vim', -- help with inserting unicode characters
 
   'nvim-treesitter/nvim-treesitter', -- Incremental parsing
   'nvim-treesitter/nvim-treesitter-textobjects', -- Extra stuff for treesitter
@@ -200,21 +201,21 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- disable snippets in code completion.
 capabilities.textDocument.completion.completionItem.snippetSupport = false
 
-if vim.fn.executable('rust-analyzer') then
+if vim.fn.executable('rust-analyzer') == 1 then
     require'lspconfig'.rust_analyzer.setup{
           on_attach = on_attach,
           capabilities = capabilities,
     }
 end
 
-if vim.fn.executable('clangd') then
+if vim.fn.executable('clangd') == 1 then
     require'lspconfig'.clangd.setup{
           on_attach = on_attach,
           capabilities = capabilities,
     }
 end
 
-if vim.fn.executable('pylsp') then
+if vim.fn.executable('pylsp') == 1 then
     require'lspconfig'.pylsp.setup{
         settings = {
             pylsp = {
@@ -426,6 +427,20 @@ vim.api.nvim_set_keymap('n', ';s', ':%s/\\s\\+$//e<CR>',
 
 vim.api.nvim_set_keymap('v', ';y', ':w ! /bin/sh -c cat<CR>',
     { noremap = true, silent = true })
+
+-- escape closes floating windows and clears hlsearch.
+local function close_floating()
+  for _, win in pairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(win).relative == "win" then
+      vim.api.nvim_win_close(win, false)
+    end
+  end
+end
+
+vim.keymap.set("n", "<esc>", function()
+  close_floating()
+  vim.cmd(":noh")
+end, { silent = true, desc = "Remove Search Highlighting, Dismiss Popups" })
 
 -- Load local (non-version-controlled) settings.
 dofile(config_dir .. "/local.lua")
