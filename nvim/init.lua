@@ -408,10 +408,22 @@ vim.api.nvim_set_keymap('n', ';c', ':set paste<cr>i#include <stdio.h>\n#include 
 
 vim.o.mouse='a' -- Enable mouse support
 vim.o.number = true -- Line number gutter
-vim.o.clipboard = 'unnamedplus' -- sync with system clipboard
 vim.o.undofile = true -- per-file undo
 vim.o.inccommand = 'nosplit' -- live substitutions
 vim.o.updatetime = 1000 -- update stuff (like the git gutter) quicker
+
+-- Clipboard
+
+-- Set up the clipboard provider to use OSC52
+--
+-- Note: requires tmux config if you use tmux.
+-- set-option -g set-clipboard on
+vim.g.clipboard = {
+    name = "osc52",
+    copy = {["+"] = copy, ["*"] = copy},
+    paste = {["+"] = paste, ["*"] = paste},
+}
+vim.opt.clipboard = "unnamedplus"
 
 -- Default indents (editorconfig can override)
 vim.o.tabstop = 4
