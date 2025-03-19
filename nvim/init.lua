@@ -33,6 +33,7 @@ local plugins = {
   'dstein64/nvim-scrollview', -- Display a scrollbar
   'tpope/vim-surround', -- add/edit surrounding characters
   'chrisbra/unicode.vim', -- help with inserting unicode characters
+  'thaerkh/vim-workspace', -- workspace manager
 
   'nvim-treesitter/nvim-treesitter', -- Incremental parsing
   'nvim-treesitter/nvim-treesitter-textobjects', -- Extra stuff for treesitter
@@ -91,7 +92,9 @@ local config_dir = os.getenv("HOME") .. '/.config/nvim'
 ----------
 
 vim.g.gruvbox_material_palette = 'mix'
-dofile(config_dir .. "/bg.lua")
+if vim.fn.filereadable(path) ~= nil then
+    dofile(config_dir .. "/bg.lua")
+end
 vim.cmd [[colorscheme gruvbox-material]]
 
 ----------
@@ -390,6 +393,14 @@ vim.api.nvim_set_keymap('n', '<leader>v', ":lua toggle_venn()<cr>", { noremap = 
 -------------
 
 vim.cmd[[hi link ScrollView Search]]
+
+----------------
+-- vim-workspace
+----------------
+
+vim.g.workspace_autosave = 0
+vim.gworkspace_autosave_untrailspaces = 0
+vim.g.workspace_autosave_untrailtabs = 0
 
 -------------
 -- Misc stuff
