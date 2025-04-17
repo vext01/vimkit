@@ -402,9 +402,6 @@ vim.cmd[[hi link ScrollView Search]]
 vim.o.textwidth=79
 vim.o.colorcolumn="-0"
 
--- Space bar in normal mode toggles paste mode.
-vim.api.nvim_set_keymap('n', '<Space>', ':set paste!<CR>', { noremap = true, silent = true })
-
 -- Insert a C program.
 vim.api.nvim_set_keymap('n', ';c', ':set paste<cr>i#include <stdio.h>\n#include <stdlib.h>\n\nint\nmain(int argc, char **argv)\n{\n\treturn (EXIT_SUCCESS);\n}<esc>:set nopaste<cr>', { noremap = true, silent = true})
 
