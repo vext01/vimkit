@@ -28,7 +28,6 @@ local plugins = {
   'dyng/ctrlsf.vim', -- search/replace
   'editorconfig/editorconfig-vim', -- configure indent per-project
   'phaazon/hop.nvim', -- improved navigation
-  'stevearc/aerial.nvim', -- class/function browser
   'jbyuki/venn.nvim', -- ASCII art drawings
   'dstein64/nvim-scrollview', -- Display a scrollbar
   'tpope/vim-surround', -- add/edit surrounding characters
@@ -45,18 +44,13 @@ local plugins = {
   'rust-lang/rust.vim',
 
   -- Completion
-  'hrsh7th/nvim-cmp',
+  'hrsh7th/nvim-cmp',     -- Compelter core.
   'hrsh7th/cmp-nvim-lsp', -- LSP completion.
   'hrsh7th/cmp-path', -- Add completion of filesystem paths
   'hrsh7th/cmp-buffer', -- Add completion of text in the current buffer
 
-  -- Snippets
-  'hrsh7th/cmp-vsnip',
-  'hrsh7th/vim-vsnip',
-
   -- Fuzzy finder
   { 'nvim-telescope/telescope.nvim',  dependencies={ 'nvim-lua/plenary.nvim' } },
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
 
   -- Colour schemes
   'sainnhe/gruvbox-material',
@@ -130,6 +124,16 @@ require('treesitter-context').setup {
     max_lines = 2,
 }
 
+----------------
+-- lsp_signature
+----------------
+
+require "lsp_signature".setup({
+    bind = true,
+    hint_enable = false,
+    handler_opts = { border = "rounded" },
+})
+
 ------
 -- LSP
 ------
@@ -137,109 +141,68 @@ require('treesitter-context').setup {
 local nvim_lsp = require 'lspconfig'
 
 function _G.all_diagnostics()
-  if vim.lsp.diagnostic.get_count(0, 'Error') > 0 then
-    vim.lsp.diagnostic.set_loclist({severity = 'Error'})
-  else
-    vim.lsp.diagnostic.set_loclist()
-  end
+    if next(vim.diagnostic.get(0)) ~= nil then
+        vim.diagnostic.setloclist()
+        vim.cmd('lopen')
+    end
 end
 
 function _G.next_diagnostic()
   if next(vim.diagnostic.get(0, {severity = 'Error'})) ~= nil then
-    vim.diagnostic.goto_next({severity = 'Error'})
+    vim.diagnostic.jump({ count = 1, severity = 'Error', float = true })
   else
-    vim.diagnostic.goto_next()
+    vim.diagnostic.jump({ count = 1, float = true })
   end
 end
 
 function _G.prev_diagnostic()
   if next(vim.diagnostic.get(0, {severity = 'Error'})) ~= nil then
-    vim.diagnostic.goto_prev({severity = 'Error'})
+    vim.diagnostic.jump({ count = -1, severity = 'Error', float = true })
   else
-    vim.diagnostic.goto_prev()
+    vim.diagnostic.jump({ count = -1, float = true })
   end
 end
 
-local aerial = require'aerial'
-aerial.setup({ default_direction = 'left' })
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = false })
+    end
 
-local on_attach = function(client, bufnr)
-  client.server_capabilities.documentFormattingProvider = true
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    local opts = { noremap = true, silent = true, buffer = ev.buf }
+    local buf = { buffer = ev.buf }
+    vim.keymap.set('n', 'ga', '<cmd>lua all_diagnostics()<CR>', opts)
+    vim.keymap.set('n', 'gd', [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], opts)
+    vim.keymap.set('n', 'gt', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
+    vim.keymap.set('n', 'gT', [[<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<CR>]], opts)
+    vim.keymap.set('n', 'ge', '<cmd>lua next_diagnostic()<CR>', opts)
+    vim.keymap.set('n', 'gE', '<cmd>lua prev_diagnostic()<CR>', opts)
+    vim.keymap.set('n', 'gh', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    vim.keymap.set('n', 'gH', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+    vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    vim.keymap.set('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+end,
+})
 
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'ga', '<cmd>lua all_diagnostics()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'ge', '<cmd>lua next_diagnostic()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gE', '<cmd>lua prev_diagnostic()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gH', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gl', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gR', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  --vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gs', [[:split<CR><cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], opts)
-  --vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gy', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], opts)
-
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
-
-  require "lsp_signature".on_attach({
-    bind = true,
-    doc_lines = 0,
-    hint_enable = false,
-    transparency = 25,
-    handler_opts = { border = "single" }
-  }, bufnr)
-end
-
-require'cmp'.setup {
-  sources = {
-    { name = 'nvim_lsp' }
-  }
-}
-
+-- Disable snippets in code completion. Prevents func params being
+-- pre-populated when you complete a function.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
--- disable snippets in code completion.
 capabilities.textDocument.completion.completionItem.snippetSupport = false
+vim.lsp.config('*', { capabilities = capabilities })
 
 if vim.fn.executable('rust-analyzer') == 1 then
-    require'lspconfig'.rust_analyzer.setup{
-          on_attach = on_attach,
-          capabilities = capabilities,
-    }
+    vim.lsp.enable('rust_analyzer')
 end
 
 if vim.fn.executable('clangd') == 1 then
-    require'lspconfig'.clangd.setup{
-          on_attach = on_attach,
-          capabilities = capabilities,
-    }
+    vim.lsp.enable('clangd')
 end
 
-local lsputil = require('lspconfig.util')
-if vim.fn.executable('lua-language-server') == 1 then
-    require'lspconfig'.lua_ls.setup{
-          on_attach = on_attach,
-          capabilities = capabilities,
-	  root_dir = lsputil.find_git_ancestor,
-    }
-end
-
-if vim.fn.executable('pylsp') == 1 then
-    require'lspconfig'.pylsp.setup{
-        settings = {
-            pylsp = {
-                plugins = {
-                    pycodestyle = {
-                        ignore = {'W391'},
-                        maxLineLength = 100
-                    }
-                }
-            }
-        }
-    }
-end
+-- FIXME: add back lua-language-server
+-- FIXME: add back pylsp
 
 ---------
 -- fidget
@@ -281,44 +244,24 @@ require('telescope').setup{
       },
     },
   },
-  extensions = {
-    fzf = {
-      fuzzy = true,                    -- false will only do exact matching
-      override_generic_sorter = true,  -- override the generic sorter
-      override_file_sorter = true,     -- override the file sorter
-      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                       -- the default case_mode is "smart_case"
-    }
-  }
 }
-require('telescope').load_extension('fzf')
 
-vim.api.nvim_set_keymap('', '<C-b>', [[<cmd>lua require('telescope.builtin').buffers({sort_lastused=true, ignore_current_buffer=false, sort_mru=true})<CR>]], { noremap=true, silent=true})
-vim.api.nvim_set_keymap('', '<C-p>', [[<cmd>lua require('telescope.builtin').find_files({previewer=false})<CR>]], { noremap=true, silent=true})
-
-vim.api.nvim_set_keymap('n', '<leader>sb', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>sh', [[<cmd>lua require('telescope.builtin').help_tags()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>st', [[<cmd>lua require('telescope.builtin').tags()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>sd', [[<cmd>lua require('telescope.builtin').grep_string()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>sp', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true, silent = true })
+local opts = { noremap=true, silent=true }
+vim.keymap.set('', '<C-b>', [[<cmd>lua require('telescope.builtin').buffers({sort_lastused=true, ignore_current_buffer=false, sort_mru=true})<CR>]], opts)
+vim.keymap.set('', '<C-p>', [[<cmd>lua require('telescope.builtin').find_files({previewer=false})<CR>]], opts)
+vim.keymap.set('n', '<leader>sb', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], opts)
+vim.keymap.set('n', '<leader>sd', [[<cmd>lua require('telescope.builtin').grep_string()<CR>]], opts)
+vim.keymap.set('n', '<leader>sp', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], opts)
+vim.keymap.set('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], opts)
 
 -----------
 -- nvim-cmp
 -----------
----
 
 local cmp = require 'cmp'
 cmp.setup({
 completion = {
     autocomplete = false
-},
-snippet = {
-  -- REQUIRED - you must specify a snippet engine
-  expand = function(args)
-	vim.fn["vsnip#anonymous"](args.body)
-  end,
 },
 mapping = cmp.mapping.preset.insert({
   ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -329,7 +272,7 @@ mapping = cmp.mapping.preset.insert({
 }),
 sources = cmp.config.sources({
   { name = 'nvim_lsp' },
-  { name = 'vsnip' },
+  { name = 'path' }
 }, {
   { name = 'buffer' },
 })
@@ -348,18 +291,18 @@ vim.g.better_whitespace_filetypes_blacklist = { 'mail', 'diff' }
 ----------
 
 vim.g['grepper'] = {tools = { 'rg', 'ag', 'grep' }}
-vim.api.nvim_set_keymap('n', '<leader>g', ':Grepper<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>g', ':Grepper<CR>', { noremap = true, silent = true })
+-- Bit of a hack here.
 -- https://github.com/mhinz/vim-grepper/issues/257
--- vim.api.nvim_set_keymap('n', 'gs', ':Grepper -cword -noprompt<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gs', ':execute ":Grepper -noprompt -query " .. shellescape(expand("<cword>"))<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', 'gs', ':execute ":Grepper -noprompt -query " .. shellescape(expand("<cword>"))<cr>', { noremap = true, silent = true })
 
 ------
 -- hop
 ------
 
 hop = require'hop'.setup{}
-vim.api.nvim_set_keymap('n', 'gw', "<cmd>lua require'hop'.hint_words()<cr>", {})
-vim.api.nvim_set_keymap('n', 'g^', "<cmd>lua require'hop'.hint_lines()<cr>", {})
+vim.keymap.set('n', 'gw', "<cmd>lua require'hop'.hint_words()<cr>", {})
+vim.keymap.set('n', 'g^', "<cmd>lua require'hop'.hint_lines()<cr>", {})
 
 -------
 -- venn
@@ -385,7 +328,7 @@ function _G.toggle_venn()
     end
 end
 -- toggle keymappings for venn using <leader>v
-vim.api.nvim_set_keymap('n', '<leader>v', ":lua toggle_venn()<cr>", { noremap = true})
+vim.keymap.set('n', '<leader>v', ":lua toggle_venn()<cr>", { noremap = true})
 
 -------------
 -- scrollview
@@ -403,7 +346,7 @@ vim.o.textwidth=79
 vim.o.colorcolumn="-0"
 
 -- Insert a C program.
-vim.api.nvim_set_keymap('n', ';c', ':set paste<cr>i#include <stdio.h>\n#include <stdlib.h>\n\nint\nmain(int argc, char **argv)\n{\n\treturn (EXIT_SUCCESS);\n}<esc>:set nopaste<cr>', { noremap = true, silent = true})
+vim.keymap.set('n', ';c', ':set paste<cr>i#include <stdio.h>\n#include <stdlib.h>\n\nint\nmain(int argc, char **argv)\n{\n\treturn (EXIT_SUCCESS);\n}<esc>:set nopaste<cr>', { noremap = true, silent = true})
 
 vim.o.mouse='a' -- Enable mouse support
 vim.o.number = true -- Line number gutter
@@ -424,17 +367,15 @@ vim.o.smartcase = true
 
 -- Spelling.
 vim.o.spelllang = 'en_gb'
-vim.api.nvim_set_keymap('n', '<C-s>', ':set spell!<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-s>', ':set spell!<CR>', { noremap = true, silent = true })
 
 -- Strip trailing whitespace
 
-vim.api.nvim_set_keymap('n', ';s', ':%s/\\s\\+$//e<CR>',
-    { noremap = true, silent = true })
+vim.keymap.set('n', ';s', ':%s/\\s\\+$//e<CR>', { noremap = true, silent = true })
 
 -- Visual mode, cat selected text (for copying from a remote host)
 
-vim.api.nvim_set_keymap('v', ';y', ':w ! /bin/sh -c cat<CR>',
-    { noremap = true, silent = true })
+vim.keymap.set('v', ';y', ':w ! /bin/sh -c cat<CR>', { noremap = true, silent = true })
 
 -- escape closes floating windows and clears hlsearch.
 local function close_floating()
