@@ -103,7 +103,7 @@ require("lualine").setup({
 -------------
 
 require("nvim-treesitter.configs").setup({
-    ensure_installed = { "c", "cpp", "css", "toml", "python", "rust" },
+    ensure_installed = { "c", "cpp", "css", "lua", "markdown", "toml", "python", "rust" },
     highlight = {
         enable = true,
         disable = { "latex" },
