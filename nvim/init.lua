@@ -38,6 +38,7 @@ local plugins = {
     "romgrk/nvim-treesitter-context", -- Auto-collapse code as you scroll
 
     "j-hui/fidget.nvim", -- status notifier for LSP
+    {"folke/trouble.nvim", lazy = false}, -- diagnostics quickfix window
 
     -- Programming langauges
     "rhysd/vim-llvm",
@@ -214,6 +215,31 @@ require("fidget").setup({
         },
     },
 })
+
+----------
+-- trouble
+----------
+
+require("trouble").setup({
+    modes = {
+        diagnostics = {
+            auto_open = true,
+            auto_close = true,
+            warn_no_results = false,
+            focus = true,
+            icons = {
+                indent = {
+                    fold_closed   = "+ ",
+                    fold_open   = "- ",
+                },
+                folder_open   = "+ ",
+                folder_closed  = "- "
+            }
+        }
+    },
+    cmd = "Trouble",
+})
+vim.keymap.set("", "<leader>t", [[<cmd>Trouble diagnostics toggle<cr>]])
 
 ------------
 -- telescope
