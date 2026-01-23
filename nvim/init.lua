@@ -57,6 +57,17 @@ local plugins = {
     -- Colour schemes
     "sainnhe/gruvbox-material",
     "robertmeta/nofrils",
+
+    -- Presentations
+    {
+        "sotte/presenting.nvim",
+        opts = {},
+        cmd = { "Presenting" }
+    },
+    {
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {},
+    }
 }
 
 local lazy_opts = {
@@ -105,7 +116,7 @@ require("lualine").setup({
 -------------
 
 require("nvim-treesitter.configs").setup({
-    ensure_installed = { "c", "cpp", "css", "lua", "markdown", "toml", "python", "rust", "vimdoc" },
+    ensure_installed = { "c", "cpp", "css", "lua", "markdown", "markdown_inline", "toml", "python", "rust", "vimdoc" },
     highlight = {
         enable = true,
         disable = { "latex" },
