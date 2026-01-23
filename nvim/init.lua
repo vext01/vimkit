@@ -43,6 +43,7 @@ local plugins = {
     -- Programming langauges
     "rhysd/vim-llvm",
     "rust-lang/rust.vim",
+    "IndianBoy42/tree-sitter-just",
 
     -- Completion
     "hrsh7th/nvim-cmp", -- Compelter core.
@@ -123,6 +124,8 @@ require("treesitter-context").setup({
     enable = true,
     max_lines = 2,
 })
+
+require('tree-sitter-just').setup({})
 
 ----------------
 -- lsp_signature
