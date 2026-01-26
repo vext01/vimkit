@@ -412,6 +412,17 @@ vim.api.nvim_buf_create_user_command(
   {}
 )
 
+-- refresh the presentation
+vim.api.nvim_buf_create_user_command(
+  0,
+  "PresentingRefresh",
+  function()
+      Presenting.toggle()
+      Presenting.toggle()
+  end,
+  {}
+)
+
 -------------
 -- Misc stuff
 -------------
