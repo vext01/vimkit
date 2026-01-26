@@ -62,12 +62,9 @@ local plugins = {
     {
         "sotte/presenting.nvim",
         opts = {},
-        cmd = { "Presenting" }
+        --cmd = { "Presenting" }
     },
-    {
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {},
-    }
+    'MeanderingProgrammer/render-markdown.nvim',
 }
 
 local lazy_opts = {
@@ -384,6 +381,36 @@ vim.keymap.set("n", "<leader>v", ":lua toggle_venn()<cr>", { noremap = true })
 -------------
 
 vim.cmd([[hi link ScrollView Search]])
+
+-----------------
+-- rendermarkdown
+-----------------
+
+require("render-markdown").setup({
+  enabled = false, -- off by default
+  anti_conceal = {
+    enabled = false,
+    disabled_modes = false, -- or e.g. { "i" } to disable in insert
+    above = 0,
+    below = 0,
+  },
+})
+
+-------------
+-- presenting
+-------------
+
+-- work around https://github.com/sotte/presenting.nvim/issues/20
+vim.api.nvim_buf_create_user_command(
+  0,
+  "Presenting",
+  function()
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+      --require("render-markdown").toggle()
+      Presenting.toggle()
+  end,
+  {}
+)
 
 -------------
 -- Misc stuff
