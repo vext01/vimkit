@@ -62,7 +62,7 @@ local plugins = {
     {
         "sotte/presenting.nvim",
         opts = {},
-        --cmd = { "Presenting" }
+        cmd = { "Presenting" }
     },
     'MeanderingProgrammer/render-markdown.nvim',
 }
@@ -407,17 +407,6 @@ vim.api.nvim_buf_create_user_command(
   function()
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
       --require("render-markdown").toggle()
-      Presenting.toggle()
-  end,
-  {}
-)
-
--- refresh the presentation
-vim.api.nvim_buf_create_user_command(
-  0,
-  "PresentingRefresh",
-  function()
-      Presenting.toggle()
       Presenting.toggle()
   end,
   {}
