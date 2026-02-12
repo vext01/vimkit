@@ -33,7 +33,16 @@ local plugins = {
     "tpope/vim-surround", -- add/edit surrounding characters
     "chrisbra/unicode.vim", -- help with inserting unicode characters
 
-    "nvim-treesitter/nvim-treesitter", -- Incremental parsing
+    -- Incremental parsing
+    {
+        "nvim-treesitter/nvim-treesitter",
+        branch = "master",
+    },
+    --{
+    --    "nvim-treesitter/nvim-treesitter",
+    --    lazy = false,
+    --    build = ":TSUpdate",
+    --},
     "nvim-treesitter/nvim-treesitter-textobjects", -- Extra stuff for treesitter
     "romgrk/nvim-treesitter-context", -- Auto-collapse code as you scroll
 
@@ -43,7 +52,7 @@ local plugins = {
     -- Programming langauges
     "rhysd/vim-llvm",
     "rust-lang/rust.vim",
-    "IndianBoy42/tree-sitter-just",
+    --"IndianBoy42/tree-sitter-just",
 
     -- Completion
     "hrsh7th/nvim-cmp", -- Compelter core.
@@ -112,6 +121,8 @@ require("lualine").setup({
 -- treesitter
 -------------
 
+--require'nvim-treesitter'.install { "c", "cpp", "css", "lua", "markdown", "markdown_inline", "toml", "python", "rust", "vimdoc" }
+
 require("nvim-treesitter.configs").setup({
     ensure_installed = { "c", "cpp", "css", "lua", "markdown", "markdown_inline", "toml", "python", "rust", "vimdoc" },
     highlight = {
@@ -133,7 +144,7 @@ require("treesitter-context").setup({
     max_lines = 2,
 })
 
-require('tree-sitter-just').setup({})
+--require('tree-sitter-just').setup({})
 
 ----------------
 -- lsp_signature
@@ -234,8 +245,8 @@ require("fidget").setup({
 require("trouble").setup({
     modes = {
         diagnostics = {
-            auto_open = true,
-            auto_close = true,
+            auto_open = false,
+            auto_close = false,
             warn_no_results = false,
             focus = true,
             icons = {
