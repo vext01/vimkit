@@ -34,15 +34,7 @@ local plugins = {
     "chrisbra/unicode.vim", -- help with inserting unicode characters
 
     -- Incremental parsing
-    {
-        "nvim-treesitter/nvim-treesitter",
-        branch = "master",
-    },
-    --{
-    --    "nvim-treesitter/nvim-treesitter",
-    --    lazy = false,
-    --    build = ":TSUpdate",
-    --},
+    { "nvim-treesitter/nvim-treesitter", lazy = false, build = ":TSUpdate" },
     "nvim-treesitter/nvim-treesitter-textobjects", -- Extra stuff for treesitter
     "romgrk/nvim-treesitter-context", -- Auto-collapse code as you scroll
 
@@ -52,7 +44,7 @@ local plugins = {
     -- Programming langauges
     "rhysd/vim-llvm",
     "rust-lang/rust.vim",
-    --"IndianBoy42/tree-sitter-just",
+    "IndianBoy42/tree-sitter-just",
 
     -- Completion
     "hrsh7th/nvim-cmp", -- Compelter core.
@@ -121,22 +113,16 @@ require("lualine").setup({
 -- treesitter
 -------------
 
---require'nvim-treesitter'.install { "c", "cpp", "css", "lua", "markdown", "markdown_inline", "toml", "python", "rust", "vimdoc" }
+local ts_langs = { "c", "cpp", "css", "lua", "markdown", "markdown_inline", "toml", "python", "rust", "vimdoc" }
+require'nvim-treesitter'.install(ts_langs)
 
-require("nvim-treesitter.configs").setup({
-    ensure_installed = { "c", "cpp", "css", "lua", "markdown", "markdown_inline", "toml", "python", "rust", "vimdoc" },
-    highlight = {
-        enable = true,
-        disable = { "latex" },
-        -- Currently we have to add Vim's syntax highlighting to avoid every
-        -- keyword being highlighted as a spelling error...
-        additional_vim_regex_highlighting = true,
-    },
-    incremental_selection = { enable = true },
-    -- Enabling treesitter's indentation currently causes autoindenting to become very wonky.
-    -- indent = { enable = true },
-    textobjects = { enable = true },
-})
+-- enable highlighting
+for _, lang in ipairs(ts_langs) do
+    vim.api.nvim_create_autocmd('FileType', {
+        pattern = { lang },
+        callback = function() vim.treesitter.start() end,
+    })
+end
 
 -- treesitter-context
 require("treesitter-context").setup({
@@ -144,6 +130,7 @@ require("treesitter-context").setup({
     max_lines = 2,
 })
 
+-- https://github.com/casey/tree-sitter-just/issues/201
 --require('tree-sitter-just').setup({})
 
 ----------------
