@@ -104,8 +104,9 @@ local config_dir = os.getenv("HOME") .. "/.config/nvim"
 ----------
 
 vim.g.gruvbox_material_palette = "mix"
-if vim.fn.filereadable(path) == 1 then
-    dofile(config_dir .. "/bg.lua")
+local bgpath = config_dir .. "/bg.lua"
+if vim.fn.filereadable(bgpath) == 1 then
+    dofile(bgpath)
 end
 vim.cmd([[colorscheme gruvbox-material]])
 
@@ -528,7 +529,7 @@ vim.api.nvim_create_autocmd("Signal", {
     pattern = { "SIGUSR1" },
     callback = function()
         if vim.fn.filereadable(path) == 1 then
-            dofile(config_dir .. "/bg.lua")
+            dofile(bgpath)
         end
     end,
 })
