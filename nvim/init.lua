@@ -68,6 +68,14 @@ local plugins = {
     'MeanderingProgrammer/render-markdown.nvim',
 }
 
+-- AI
+if os.getenv("OPENAI_API_KEY") ~= nil then
+    table.insert(plugins, {
+        "frankroeder/parrot.nvim",
+        dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim" },
+    })
+end
+
 local lazy_opts = {
     ui = {
         icons = {
@@ -413,6 +421,36 @@ vim.api.nvim_buf_create_user_command(
 -------------
 -- Misc stuff
 -------------
+
+---------
+-- parrot
+---------
+
+if os.getenv("OPENAI_API_KEY") ~= nil then
+    require("parrot").setup {
+        -- Providers must be explicitly set up to make them available.
+        providers = {
+            openai = {
+                name = "openai",
+                api_key = os.getenv "OPENAI_API_KEY",
+                endpoint = "https://api.openai.com/v1/chat/completions",
+                params = {
+                    chat = { temperature = 1.1, top_p = 1 },
+                    command = { temperature = 1.1, top_p = 1 },
+                },
+                topic = {
+                    model = "gpt-4.1-nano",
+                    params = { max_completion_tokens = 64 },
+                },
+                models ={
+                    --"gpt-4o",
+                    "o4-mini",
+                    --"gpt-4.1-nano",
+                }
+            },
+        },
+    }
+end
 
 -- Highlight the last column a character may occupy on a line.
 -- Default is 79, but may be overridden for other file types.
