@@ -46,6 +46,7 @@ local plugins = {
     "rhysd/vim-llvm",
     "rust-lang/rust.vim",
     "IndianBoy42/tree-sitter-just",
+    "mfussenegger/nvim-jdtls" , -- java
 
     -- Completion
     "hrsh7th/nvim-cmp", -- Compelter core.
@@ -143,15 +144,17 @@ require("treesitter-context").setup({
 
 require("lsp_signature").setup({
     bind = true,
-    hint_enable = false,
+    hint_enable = false,        -- no virtual-text hints, just the floating window
     handler_opts = { border = "rounded" },
+    toggle_key = "<C-k>",       -- <C-k> also dismisses/re-shows manually
+    select_signature_key = "<C-n>",  -- cycle overloads
 })
 
 ------
 -- LSP
 ------
 
-local nvim_lsp = require("lspconfig")
+--local nvim_lsp = require("lspconfig")
 
 function _G.all_diagnostics()
     if next(vim.diagnostic.get(0)) ~= nil then
@@ -179,10 +182,6 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(ev)
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        if client:supports_method("textDocument/completion") then
-            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = false })
-        end
-
         local opts = { noremap = true, silent = true, buffer = ev.buf }
         local buf = { buffer = ev.buf }
         vim.keymap.set("n", "ga", "<cmd>lua all_diagnostics()<CR>", opts)
@@ -192,6 +191,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "ge", "<cmd>lua next_diagnostic()<CR>", opts)
         vim.keymap.set("n", "gE", "<cmd>lua prev_diagnostic()<CR>", opts)
         vim.keymap.set("n", "gh", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+        vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
         vim.keymap.set("n", "gH", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
         vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
         vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
@@ -202,7 +202,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- Disable snippets in code completion. Prevents func params being
 -- pre-populated when you complete a function.
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = false
 vim.lsp.config("*", { capabilities = capabilities })
 
@@ -216,6 +216,8 @@ end
 
 -- FIXME: add back lua-language-server
 -- FIXME: add back pylsp
+
+-- note: java stuff in ftplugin file.
 
 ---------
 -- fidget
@@ -348,9 +350,9 @@ vim.keymap.set(
 -- hop
 ------
 
-hop = require("hop").setup({})
-vim.keymap.set("n", "gw", "<cmd>lua require'hop'.hint_words()<cr>", {})
-vim.keymap.set("n", "g^", "<cmd>lua require'hop'.hint_lines()<cr>", {})
+-- hop = require("hop").setup({})
+-- vim.keymap.set("n", "gw", "<cmd>lua require'hop'.hint_words()<cr>", {})
+-- vim.keymap.set("n", "g^", "<cmd>lua require'hop'.hint_lines()<cr>", {})
 
 -------
 -- venn
