@@ -56,6 +56,7 @@ local plugins = {
 
     -- Fuzzy finder
     { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+    "nvim-telescope/telescope-ui-select.nvim",
 
     -- Colour schemes
     "sainnhe/gruvbox-material",
@@ -118,7 +119,7 @@ require("lualine").setup({
 -- treesitter
 -------------
 
-local ts_langs = { "c", "cpp", "css", "lua", "markdown", "markdown_inline", "toml", "python", "rust", "vimdoc" }
+local ts_langs = { "c", "cpp", "css", "java", "lua", "markdown", "markdown_inline", "toml", "python", "rust", "vimdoc" }
 require'nvim-treesitter'.install(ts_langs)
 
 -- enable highlighting
@@ -197,6 +198,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
         vim.keymap.set("n", "gR", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
         vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+        vim.keymap.set("n", "<C-space>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
     end,
 })
 
@@ -284,7 +286,13 @@ require("telescope").setup({
             },
         },
     },
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown({})
+        }
+    }
 })
+require("telescope").load_extension("ui-select")
 
 local opts = { noremap = true, silent = true }
 vim.keymap.set(
