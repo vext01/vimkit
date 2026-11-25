@@ -32,6 +32,7 @@ local plugins = {
     "dstein64/nvim-scrollview", -- Display a scrollbar
     "tpope/vim-surround", -- add/edit surrounding characters
     "chrisbra/unicode.vim", -- help with inserting unicode characters
+    "echaya/neowiki.nvim", -- personal wiki
 
     -- Incremental parsing
     { "nvim-treesitter/nvim-treesitter", lazy = false, build = ":TSUpdate" },
@@ -65,7 +66,9 @@ local plugins = {
         opts = {},
         cmd = { "Presenting" }
     },
-    'MeanderingProgrammer/render-markdown.nvim',
+    'MeanderingProgrammer/render-markdown.nvim', -- render markdown inline
+    "nvim-tree/nvim-web-devicons", -- icons for render-markdown (needs a nerdfont)
+    "nvim-mini/mini.nvim", -- more icons for render-markdown (needs a nerdfont)
 }
 
 -- AI
@@ -389,19 +392,28 @@ vim.keymap.set("n", "<leader>v", ":lua toggle_venn()<cr>", { noremap = true })
 
 vim.cmd([[hi link ScrollView Search]])
 
------------------
--- rendermarkdown
------------------
+------------------
+-- render-markdown
+------------------
 
 require("render-markdown").setup({
-  enabled = false, -- off by default
+  enabled = true, -- whether to auto-render md files
   anti_conceal = {
-    enabled = false,
+    enabled = true,
     disabled_modes = false, -- or e.g. { "i" } to disable in insert
     above = 0,
     below = 0,
   },
+  link = { wiki = { icon = "󰌹 " } }
 })
+
+require("render-markdown").setup({  })
+
+----------
+-- mini
+----------
+
+require('mini.icons').setup()
 
 -------------
 -- presenting
@@ -418,6 +430,22 @@ vim.api.nvim_buf_create_user_command(
   end,
   {}
 )
+
+---------------
+-- neowiki
+---------------
+
+require("neowiki").setup({
+    wiki_dirs = { name = "work", path = "~/wiki" },
+    keymaps = {
+        toggle_task = "<space>",
+    }
+})
+
+vim.api.nvim_create_user_command("WW", function()  require("neowiki").open_wiki()end, { nargs = 0, desc = "Open Wiki" })
+vim.api.nvim_create_user_command("W", function()  require("neowiki").open_wiki_floating()end, { nargs = 0, desc = "Open Wiki in Floating Window" })
+
+vim.keymap.set("n", "<space>", function() require("neowiki").toggle_task() end, { noremap = true, silent = true })
 
 -------------
 -- Misc stuff
