@@ -369,9 +369,9 @@ vim.keymap.set(
 -- hop
 ------
 
--- hop = require("hop").setup({})
--- vim.keymap.set("n", "gw", "<cmd>lua require'hop'.hint_words()<cr>", {})
--- vim.keymap.set("n", "g^", "<cmd>lua require'hop'.hint_lines()<cr>", {})
+hop = require("hop").setup({})
+vim.keymap.set("n", "gw", "<cmd>lua require'hop'.hint_words()<cr>", {})
+vim.keymap.set("n", "g^", "<cmd>lua require'hop'.hint_lines()<cr>", {})
 
 -------
 -- venn
