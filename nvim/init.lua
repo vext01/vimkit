@@ -216,8 +216,19 @@ if vim.fn.executable("clangd") == 1 then
     vim.lsp.enable("clangd")
 end
 
+vim.lsp.config("basedpyright", {
+  settings = {
+    basedpyright = {
+      typeCheckingMode = "off",
+    },
+  },
+})
+
+if vim.fn.executable("basedpyright") == 1 then
+    vim.lsp.enable("basedpyright")
+end
+
 -- FIXME: add back lua-language-server
--- FIXME: add back pylsp
 
 -- note: java stuff in ftplugin file.
 
@@ -448,6 +459,43 @@ vim.api.nvim_create_user_command("WW", function()  require("neowiki").open_wiki(
 vim.api.nvim_create_user_command("W", function()  require("neowiki").open_wiki_floating()end, { nargs = 0, desc = "Open Wiki in Floating Window" })
 
 vim.keymap.set("n", "<space>", function() require("neowiki").toggle_task() end, { noremap = true, silent = true })
+
+-------------------
+-- interestingwords
+-------------------
+
+local words = {
+  { bg = '#fb4934', fg = '#1d2021' }, -- red
+  { bg = '#fabd2f', fg = '#1d2021' }, -- yellow
+  { bg = '#b8bb26', fg = '#1d2021' }, -- olive / yellow-green
+  { bg = '#1abc9c', fg = '#1d2021' }, -- teal
+  { bg = '#61afef', fg = '#1d2021' }, -- sky blue
+  { bg = '#7c8fd9', fg = '#1d2021' }, -- indigo
+  { bg = '#c678dd', fg = '#1d2021' }, -- orchid / magenta
+  { bg = '#ff6188', fg = '#1d2021' }, -- hot pink
+  { bg = '#8a7b5b', fg = '#ebdbb2' }, -- warm grey
+  { bg = '#8b3a3a', fg = '#ebdbb2' }, -- maroon
+  { bg = '#2c5f8a', fg = '#ebdbb2' }, -- navy
+  { bg = '#fe8019', fg = '#1d2021' }, -- orange
+}
+
+vim.g.interestingWordsGUIColors = vim.tbl_map(function(w) return w.bg end, words)
+
+local function apply_interesting_word_highlights()
+  for i, w in ipairs(words) do
+    vim.api.nvim_set_hl(0, 'InterestingWord' .. i, {
+      bg = w.bg,
+      fg = w.fg,
+      bold = true,
+    })
+  end
+end
+
+apply_interesting_word_highlights() -- run immediately on load
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = apply_interesting_word_highlights,
+})
 
 -------------
 -- Misc stuff
